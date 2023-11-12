@@ -14,7 +14,7 @@ export class UsageLOGEntity {
     current:number;
     @Column({type: 'float'})
     voltage:number;
-    @Column()
+    @Column({type: 'timestamp'})
     time:string;
     @Column({nullable:true})
     c_id:number
