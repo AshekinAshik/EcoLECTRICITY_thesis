@@ -113,6 +113,8 @@ const CitizenUsages = () => {
     // })
 
     const showData = () => {
+        setInterval(getData, 5000)
+        
         console.log(usages)
         if (usages) {
             return (
