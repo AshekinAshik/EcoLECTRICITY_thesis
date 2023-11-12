@@ -26,6 +26,7 @@ const GetCitizens = () => {
         searchData.c_id = parseInt(searchData.c_id);
         console.log(searchData);
 
+        // if (searchData.c_id > 0) {
         try {
             const response = await axios.get(process.env.NEXT_PUBLIC_API_ADMIN_BASE_URL + 'search/citizen/' + searchData.c_id, {
                 withCredentials: true
@@ -36,6 +37,9 @@ const GetCitizens = () => {
         } catch (error) {
             console.error('Error Search:', error);
         }
+        // } else {
+        //     handleRedirect()
+        // }
     };
 
     const getCitizensData = async () => {
@@ -52,16 +56,14 @@ const GetCitizens = () => {
     };
 
     const handleRedirect = () => {
-        // router.push('citizens')
-        window.location.href = 'http://localhost:8000/admin/citizens';
+        getCitizensData()
     }
 
     return (
         <>
             {/* <SessionCheck /> */}
 
-            <br></br> <br></br>
-            <div>
+            <div className="min-h-fit">
                 <body>
                     <center>
                         <br></br> <br></br>

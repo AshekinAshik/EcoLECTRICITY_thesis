@@ -2,35 +2,71 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import ReactApexChart from "react-apexcharts";
 
 const ViewUsageData = () => {
-    const router = useRouter();
+    // const router = useRouter();
 
-    const [usageData, setUsageData] = useState([]);
+    // const [usageData, setUsageData] = useState([]);
 
-    useEffect(() => {
-        getUsageData();
-    }, []);
+    // useEffect(() => {
+    //     getUsageData();
+    // }, []);
 
-    const getUsageData = async () => {
-        try {
-            const response = await axios.get(process.env.NEXT_PUBLIC_API_ADMIN_BASE_URL + 'dashboard', {
-                withCredentials: true
-            });
+    // const getUsageData = async () => {
+    //     try {
+    //         const response = await axios.get(process.env.NEXT_PUBLIC_API_ADMIN_BASE_URL + 'dashboard', {
+    //             withCredentials: true
+    //         });
 
-            setUsageData(response.data);
-            console.log(response.data);
-        } catch (error) {
-            console.log('Error Fetching Usage Data: ', error);
-        }
-    };
+    //         setUsageData(response.data);
+    //         console.log(response.data);
+    //     } catch (error) {
+    //         console.log('Error Fetching Usage Data: ', error);
+    //     }
+    // };
+
+    const [state, setState] = useState({
+        series: [
+            {
+                name: 'power',
+                data: [31, 40, 28, 51, 42, 109, 100]
+            }, 
+            {
+                name: 'current',
+                data: [11, 32, 45, 32, 34, 52, 41]
+            }
+        ],
+        options: {
+            chart: {
+                height: 350,
+                type: 'area'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'datetime',
+                categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+            },
+            tooltip: {
+                x: {
+                    format: 'dd/MM/yy HH:mm'
+                },
+            },
+        },
+    })
+
 
     return (
         <>
             {/* <SessionCheck /> */}
 
             <br></br> <br></br>
-            <div>
+            {/* <div>
                 <body>
                     <center>
 
@@ -83,7 +119,8 @@ const ViewUsageData = () => {
                         </div>
                     </center>
                 </body>
-            </div>
+            </div> */}
+            <ReactApexChart options={state.options} series={state.series} type="area" height={350} width={1000} />
         </>
     );
 };

@@ -12,7 +12,6 @@ export default function WebLayout({ children, title }) {
             </Head>
 
             <WebHeader />
-            {/* <br></br> <br></br> <br></br> */}
 
             {children}
             
