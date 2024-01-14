@@ -53,12 +53,12 @@ export class AdminService {
     async getUsageDataByCitizenID(c_id: number, adminUsername: string) {
         // return this.usageRepo.findOneBy({id: c_id})
         // return this.usageRepo.query('SELECT user_id, power, current, voltage, time FROM usage_log WHERE user_id='+c_id)
-        const citizen = await this.citizenRepo.findOneBy({id:c_id})
+        const citizen = await this.citizenRepo.findOneBy({ id: c_id })
 
         return this.usageRepo.find(
             {
-                where: {c_id: c_id},
-                relations: {citizen: true}
+                where: { c_id: c_id },
+                relations: { citizen: true }
             }
         )
     }
@@ -70,10 +70,16 @@ export class AdminService {
     }
 
     getCitizenByID(c_id: number, adminUsername: string) {
-        return this.citizenRepo.query('SELECT * FROM citizen WHERE c_id='+c_id)
+        return this.citizenRepo.query('SELECT * FROM citizen WHERE c_id=' + c_id)
     }
 
-    setValue(values:DatabaseDTO) {
+    getCostByCitizenID(c_id: number, adminUsername: string) {
+        const res = this.getUsageDataByCitizenID(c_id, adminUsername)
+
+        return typeof(res)
+    }
+
+    setValue(values: DatabaseDTO) {
         return this.usageRepo.save(values)
     }
 

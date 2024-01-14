@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import WebLayout_V1 from '../../layout/layout_v1';
 // import { useAuth } from '../utils/authContext';
 // import SessionCheck from '../utils/sessionCheck';
 
@@ -71,33 +72,31 @@ const CitizenLoginForm = () => {
     return (
         <>
             {/* <SessionCheck /> */}
-            <body>
-                <div class="flex flex-wrap justify-center">
-                    <div class="w-80">
-                        <h3 class="text-center mb-4 text-3xl font-bold text-black">Assigning Detail</h3>
-                        <form class="mt-4" onSubmit={handleSubmit}>
-                            <div class="mb-6">
-                                <label for="contact" class="block mb-2 text-sm font-medium text-black">Traveller ID</label>
-                                <input type="number" id="contact" name="contact" onChange={handleChange} class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-                            </div>
-                            <div class="mb-6">
-                                <label for="password" class="block mb-2 text-sm font-medium text-black">Tour Guide ID</label>
-                                <input type="password" id="password" name="password" onChange={handleChange} class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-                            </div>
 
+            <body className='bg-full-screen'>
+                <WebLayout_V1 title={'Login - Citizen'}>
+                    <div class="center w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 glass-container-login">
+                        <form class="space-y-6" onSubmit={handleSubmit}>
+                            <h5 class="text-center mb-4 text-2xl font-bold text-white">Log in to our platform</h5>
                             <div>
-                                {error && <p class="text-center font-bold text-red-500">{error}</p>}
+                                <label for="contact" class="block mb-2 text-sm font-medium text-white dark:text-white">Citizen Contact Number</label>
+                                <input type="number" name="contact" id="contact" placeholder="01*********" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
                             </div>
-
                             <div>
-                                <center>
-                                    <button type="submit" class="text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Assign</button>
-                                </center>
+                                <label for="password" class="block mb-2 text-sm font-medium text-white dark:text-white">Your Password</label>
+                                <input type="password" name="password" id="password" placeholder="••••••••" onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
+                            </div>
+                            <div>
+                                {error && <p class="text-center font-bold text-red-700">{error}</p>}
+                            </div>
+                            <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">login</button>
+                            <div class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                <center> Not registered? <a href="citizenRegistration" class="text-blue-600 hover:underline dark:text-blue-500">Create account</a> </center>
                             </div>
                         </form>
                     </div>
-                </div>
-            </body>
+                </WebLayout_V1>
+            </body >
         </>
     )
 };

@@ -2,13 +2,13 @@ import WebLayout from "../layout/layout";
 
 const { default: dynamic } = require("next/dynamic");
 
-const DynamicLoginCitizenForm = dynamic(() => import('../component/citizenComp/loginCitizenForm'), { ssr: false });
+const DynamicTestingBkash = dynamic(() => import('../component/citizenComp/bkash_v2'), { ssr: false });
 
-const CitizenLoginPage = () => {
+const TestingBkash = () => {
     return (
         <>
             <div>
-                <DynamicLoginCitizenForm />
+                <DynamicTestingBkash />
             </div>
 
             {/* <WebLayout title="Citizen - LOGIN">
@@ -20,4 +20,4 @@ const CitizenLoginPage = () => {
     )
 };
 
-export default CitizenLoginPage;
+export default TestingBkash;

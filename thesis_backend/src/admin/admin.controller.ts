@@ -7,14 +7,14 @@ import { DatabaseDTO } from "src/database/database.dto";
 export class AdminController {
     constructor(private readonly adminService: AdminService) { }
 
-    @Get('msg')
-    checkMessage () : any {
+    @Get('msg') //testing purpose
+    checkMessage(): any {
         return this.adminService.checkMessage();
     }
 
     @Post('register')
     @UsePipes(new ValidationPipe())
-    regAdmin(@Body() adminRegInfo : AdminRegDTO) : any {
+    regAdmin(@Body() adminRegInfo: AdminRegDTO): any {
         console.log(adminRegInfo);
 
         return this.adminService.regAdmin(adminRegInfo)
@@ -22,7 +22,7 @@ export class AdminController {
         // if (this.adminService.regAdmin(adminRegInfo)) {
         //     return "Admin Registration Successful!";
         // }
-        
+
         // return "Admin Registration Failed!";
     }
 
@@ -32,7 +32,7 @@ export class AdminController {
         console.log(adminLoginInfo);
 
         const result = await this.adminService.loginAdmin(adminLoginInfo);
-        
+
         if (result) {
             session.username = adminLoginInfo.username;
             console.log("login session username: " + session.username)
@@ -49,12 +49,12 @@ export class AdminController {
     }
 
     @Get('citizens')
-    getCitizensID() : any {
+    getCitizensID(): any {
         return this.adminService.getCitizensID();
     }
 
     @Get('dashboard')
-    getUsageData() : any {
+    getUsageData(): any {
         return this.adminService.getUsageData();
     }
 
@@ -64,19 +64,26 @@ export class AdminController {
         if (res) {
             return res
         } else {
-            return new NotFoundException({message: "No Usage Data was Found!"})
+            return new NotFoundException({ message: "No Usage Data was Found!" })
         }
     }
 
     @Get('search/citizen/:c_id')
     async getCitizenByID(@Param("c_id", ParseIntPipe) c_id: number, @Session() session) {
         const res = await this.adminService.getCitizenByID(c_id, session.username)
-        
+
+        return res
+    }
+
+    @Get('cost/:c_id')
+    async getCostByCitizenID(@Param("c_id", ParseIntPipe) c_id: number, @Session() session) {
+        const res = await this.adminService.getCostByCitizenID(c_id, session.username)
+
         return res
     }
 
     @Post('testing')
-    setValue(@Body() values:DatabaseDTO) {
+    setValue(@Body() values: DatabaseDTO) {
         return this.adminService.setValue(values)
     }
 

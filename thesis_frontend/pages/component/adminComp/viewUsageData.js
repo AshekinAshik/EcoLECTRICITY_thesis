@@ -1,128 +1,139 @@
 import axios from "axios";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import WebHeader_V1 from "../../layout/header_v1";
+import WebFooter from "../../layout/footer";
 import ReactApexChart from "react-apexcharts";
+// import SessionCheck from "../utils/sessionCheck";
 
 const ViewUsageData = () => {
-    // const router = useRouter();
+    // const [category, setCategory] = useState([])
+    // const [data, setData] = useState([])
 
-    // const [usageData, setUsageData] = useState([]);
+    const [usages, setUsages] = useState([]);
+    const [powerData, setPowerData] = useState([])
+    const [currentData, setCurrentData] = useState([])
+    const [voltageData, setVoltageData] = useState([])
+    const [timeData, setTimeData] = useState([])
 
-    // useEffect(() => {
-    //     getUsageData();
-    // }, []);
+    useEffect(() => {
+        getData();
+    }, []);
 
-    // const getUsageData = async () => {
-    //     try {
-    //         const response = await axios.get(process.env.NEXT_PUBLIC_API_ADMIN_BASE_URL + 'dashboard', {
-    //             withCredentials: true
-    //         });
+    const getData = async () => {
+        const currents = []
+        const powers = []
+        const times = []
+        const voltages = []
 
-    //         setUsageData(response.data);
-    //         console.log(response.data);
-    //     } catch (error) {
-    //         console.log('Error Fetching Usage Data: ', error);
-    //     }
-    // };
+        try {
+            const response = await axios.get(process.env.NEXT_PUBLIC_API_ADMIN_BASE_URL + 'usages/' + c_id,
+                {
+                    withCredentials: true
+                })
 
-    const [state, setState] = useState({
-        series: [
-            {
-                name: 'power',
-                data: [31, 40, 28, 51, 42, 109, 100]
-            }, 
-            {
-                name: 'current',
-                data: [11, 32, 45, 32, 34, 52, 41]
-            }
-        ],
-        options: {
-            chart: {
-                height: 350,
-                type: 'area'
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                curve: 'smooth'
-            },
-            xaxis: {
-                type: 'datetime',
-                categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-            },
-            tooltip: {
-                x: {
-                    format: 'dd/MM/yy HH:mm'
-                },
-            },
+            setUsages(response.data);
+            console.log("response: ", response);
+
+            response.data.map(item => {
+                console.log("item: ", item)
+                currents.push(item.current)
+                powers.push(item.power)
+                times.push(item.time)
+                voltages.push(item.voltage)
+            })
+            setPowerData(powers)
+            setCurrentData(currents)
+            setTimeData(times)
+            setVoltageData(voltages)
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const OptionsChartLine = {
+        chart: {
+            height: 550,
+            type: 'area'
         },
-    })
+        xaxis: {
+            type: '',
+            categories: timeData,
+            tickAmount: 10,
+        },
+        yaxis: {
+            tickAmount: 5,
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        stroke: {
+            curve: 'smooth',
+            width: 3,
+        },
+        tooltip: {
+            x: {
+                format: 'dd/MM'
+            },
+        }
+    }
 
+    const SeriesChartLine = [
+        {
+            name: 'x',
+            data: currentData
+        },
+        {
+            name: 'y',
+            data: voltageData
+        }
+    ]
+
+    const showData = () => {
+        // setInterval(getData, 5000)
+        console.log(usages)
+        if (usages) {
+            return (
+                <>
+                    {/* <SessionCheck /> */}
+                    <body className="bg-light">
+                        <WebHeader_V1 />
+                        <div className="body-topnbottom">
+                            <center>
+
+                                <h4 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-2xl lg:text-4xl dark:text-white"> All Available <mark class="px-2 text-white bg-green-400 rounded dark:bg-blue-500">Usage</mark> Data </h4>
+                                <br></br>
+
+                                {/* <ReactApexChart options={state.options} series={state.series} type="area" height={350} width={1000} /> */}
+
+                                <ReactApexChart options={OptionsChartLine} series={SeriesChartLine} height={500} width={1400} />
+
+                                <br></br>
+
+
+                            </center>
+                        </div>
+                        <WebFooter />
+                    </body>
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <WebHeader_V1 />
+                    <p class="text-center text-red-700"> No Usage Data to Show </p>
+                    <WebFooter_V1 />
+                </>
+            )
+        }
+    };
 
     return (
         <>
-            {/* <SessionCheck /> */}
-
-            <br></br> <br></br>
-            {/* <div>
-                <body>
-                    <center>
-
-                        <h4 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-4xl dark:text-white"> All Available <mark class="px-2 text-white bg-green-400 rounded dark:bg-blue-500">Usage</mark> Data </h4>
-                        <br></br>
-
-                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table class="w-full text-sm text-center text-gray-800 dark:text-gray-400">
-                                <thead class="text-extrabold text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-5">
-                                            Log ID
-                                        </th>
-                                        <th scope="col" class="px-6 py-5">
-                                            Power
-                                        </th>
-                                        <th scope="col" class="px-6 py-5">
-                                            Current
-                                        </th>
-                                        <th scope="col" class="px-6 py-5">
-                                            Voltage
-                                        </th>
-                                        <th scope="col" class="px-6 py-5">
-                                            Time
-                                        </th>
-                                        <th scope="col" class="px-6 py-5">
-                                            Time
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {usageData.map((item, index) => (
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
-                                            <td class="px-6 py-2">{item.log_id}</td>
-                                            <td class="px-6 py-2">{item.power}</td>
-                                            <td class="px-6 py-2">{item.current}</td>
-                                            <td class="px-6 py-2">{item.voltage}</td>
-                                            <td class="px-6 py-2">{item.time}</td>
-                                            <td class="px-6 py-2">{item.c_id}</td>
-                                            <td class="px-6 py-2 text-right">
-                                                <Link href={"" + item.c_id}>
-                                                    <button type="button" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"> Details </button>
-                                                </Link>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </center>
-                </body>
-            </div> */}
-            <ReactApexChart options={state.options} series={state.series} type="area" height={350} width={1000} />
+            <div>
+                {showData()}
+            </div>
         </>
-    );
+    )
 };
 
 export default ViewUsageData;

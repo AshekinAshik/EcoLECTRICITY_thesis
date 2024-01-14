@@ -7,11 +7,15 @@ const DynamicViewUsageData = dynamic(() => import('../component/citizenComp/view
 const CitizenDashboardPage = () => {
     return (
         <>
-            <WebLayout title="Dashboard - Usage Data">
+            <div>
+                <DynamicViewUsageData />
+            </div>
+
+            {/* <WebLayout title="Dashboard - Usage Data">
                 <div>
                     <DynamicViewUsageData />
                 </div>
-            </WebLayout>
+            </WebLayout> */}
         </>
     )
 };

@@ -1,15 +1,12 @@
-import '@/styles/globals.css'
+import '../styles/globals.css'
 import WebLayout from './layout/layout'
 import WebHeader from './layout/header'
 
 export default function App({ Component, pageProps }) {
   return (
     <>
-    {/* <WebLayout></WebLayout> */}
+      {/* <WebLayout></WebLayout> */}
       <Component {...pageProps} />
-
     </>
   )
-
-
 }

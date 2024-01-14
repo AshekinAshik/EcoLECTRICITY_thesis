@@ -1,4 +1,5 @@
 import WebLayout from "../layout/layout";
+import WebLayout_V1 from "../layout/layout_v1";
 
 const { default: dynamic } = require("next/dynamic");
 
@@ -7,11 +8,17 @@ const DynamicLoginAdminForm = dynamic(() => import('../component/adminComp/login
 const AdminLoginPage = () => {
     return (
         <>
-            <WebLayout title="Admin - LOGIN">
+            {/* <WebLayout_V1> */}
                 <div>
                     <DynamicLoginAdminForm />
                 </div>
-            </WebLayout>
+            {/* </WebLayout_V1> */}
+
+            {/* <WebLayout title="Admin - LOGIN">
+                <div>
+                    <DynamicLoginAdminForm />
+                </div>
+            </WebLayout> */}
         </>
     )
 };

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UsePipes, ValidationPipe, Session, NotFoundException, Get } from "@nestjs/common";
+import { Body, Controller, Post, UsePipes, ValidationPipe, Session, NotFoundException, Get, ParseIntPipe, Param } from "@nestjs/common";
 import { CitizenService } from "./citizen.service";
 import { CitizenLoginDTO, CitizenRegDTO } from "./citizen.dto";
 import session = require("express-session");
