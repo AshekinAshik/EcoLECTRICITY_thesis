@@ -19,13 +19,14 @@ export class CitizenController {
     @Post('login')
     @UsePipes(new ValidationPipe())
     async loginCitizen(@Body() citizenLogInfo: CitizenLoginDTO, @Session() session) {
-        console.log(citizenLogInfo)
+        console.log("Citizen Login Credentials: ", citizenLogInfo)
 
         const result = await this.citizenService.loginCitizen(citizenLogInfo)
-        
+
         if (result) {
             session.contact = citizenLogInfo.contact
             console.log("Citizen Login Session Contact: " + session.contact)
+
             return "Citizen Login Successful!"
         } else {
             return new NotFoundException({ message: "Citizen Not Found!" })
@@ -33,7 +34,41 @@ export class CitizenController {
     }
 
     @Get('dashboard')
-    getUsageData(@Session() session) : any {
+    getUsageData(@Session() session): any {
+        // const now = new Date();
+        // const dateObj = new Date();
+        // const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        // const day = ('0' + dateObj.getDate()).slice(-2);
+        // const month = months[dateObj.getMonth()];
+        // const year = dateObj.getFullYear();
+        // console.log(`${day} ${month} ${year}`)
+
         return this.citizenService.getUsageData(session.contact);
+    }
+
+    @Get('energy_cost')
+    async getEnergyAndCost(@Session() session) {
+        const res = await this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
+
+        // if (res) {
+        //     return res
+        // } else {
+        //     return "Today's Energy-Cost is already uploaded!"
+        // }
+
+        return res
+    }
+
+    @Get('daily_energy_cost')
+    async getDailyEnergyAndCost(@Session() session) {
+        const res = await this.citizenService.getDailyCalculatedAndSaveEnergy_Cost(session.contact)
+
+        // if (res) {
+        //     return res
+        // } else {
+        //     return "Today's Energy-Cost is already uploaded!"
+        // }
+
+        return res
     }
 }

@@ -16,17 +16,20 @@ const ViewUsageData = () => {
     const [currentData, setCurrentData] = useState([])
     const [timeData, setTimeData] = useState([])
     const [voltageData, setVoltageData] = useState([])
-    const [unitCostData, setUnitCostData] = useState([])
+
+    const [energyCostData, setEnergyCostData] = useState([])
     const [energyData, setEnergyData] = useState([])
+    const [costData, setCostData] = useState([])
+    const [energycostTimeData, setEnergyCostTimeData] = useState([])
 
     const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 
     // useEffect(() => {
-    //     getUsageData();
+    //     getData();
     // }, []);
 
-    // const getUsageData = async () => {
+    // const getData = async () => {
     //     try {
     //         const response = await axios.get(process.env.NEXT_PUBLIC_API_CITIZEN_BASE_URL + 'dashboard', {
     //             withCredentials: true
@@ -40,52 +43,118 @@ const ViewUsageData = () => {
     // };
 
     useEffect(() => {
-        getUsageData();
+        getData();
     }, []);
 
-    const getUsageData = async () => {
+    const currDate = () => {
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const currentDate = new Date();
+
+        const day = ('0' + currentDate.getDate()).slice(-2); // Ensure two-digit day
+        const month = months[currentDate.getMonth()];
+        const year = currentDate.getFullYear();
+
+        console.log(`${day} ${month} ${year}`)
+    }
+
+    const getData = async () => {
         const currents = []
         const powers = []
         const times = []
         const voltages = []
-        const unitCosts = []
+        const costs = []
         const energies = []
+        const en_cost_times = []
 
         try {
-            const response = await axios.get(process.env.NEXT_PUBLIC_API_CITIZEN_BASE_URL + 'dashboard',
+            const response_dashboard = await axios.get(process.env.NEXT_PUBLIC_API_CITIZEN_BASE_URL + 'dashboard',
                 {
                     withCredentials: true
                 })
+            setUsageData(response_dashboard.data)
+            console.log("response dashboard: ", response_dashboard)
 
-            setUsageData(response.data);
-            console.log("response: ", response);
+            const response_energycost = await axios.get(process.env.NEXT_PUBLIC_API_CITIZEN_BASE_URL + 'energy_cost',
+                {
+                    withCredentials: true
+                })
+            setEnergyCostData(response_energycost.data)
+            console.log("response energycost: ", response_energycost)
 
-            response.data.map(item => {
-                console.log("item: ", item)
-                currents.push(item.current)
-                powers.push(item.power)
-                times.push(item.time)
-                voltages.push(item.voltage)
+            // const dateObj = new Date("2022-01-09 15:30:45");
+            // const options = {
+            //     day: '2-digit',
+            //     month: 'short',
+            //     year: 'numeric'
+            // };
+            // console.log(dateObj.toLocaleDateString('en-US', options)) this result shows Jan 02, 2022
 
-                const randomDecimal = Math.random()
-                let randomCost = 4.6 + randomDecimal * (6.7 - 4.6)
+            // const dateObj = new Date("2022-01-09 15:30:45");
+            // const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            // const day = ('0' + dateObj.getDate()).slice(-2);
+            // const month = months[dateObj.getMonth()]; 
+            // const year = dateObj.getFullYear();
+            // console.log(`${day} ${month} ${year}`) this result shows 02 Jan 2022
 
-                const power = item.current * item.voltage
-                let energy = (power / 1000) * (5 / 3600)
-                energy = Number(energy.toFixed(4))
 
-                let cost = energy * randomCost
-                cost = Number(cost.toFixed(4))
+            // const timeInterval = 10
+            response_dashboard.data.map(item_dashboard => {
+                console.log("item dashboard: ", item_dashboard)
 
-                energies.push(energy)
-                unitCosts.push(cost)
+                currents.push(item_dashboard.current)
+
+                //Retrieving Power data and converting to kW
+                let power_kWh = (item_dashboard.power) / 1000
+                power_kWh = Number(power_kWh.toFixed(2))
+                powers.push(power_kWh)
+                // powers.push((item_dashboard.power)/1000)
+                // powers.push(item_dashboard.power)
+
+                const date = new Date(item_dashboard.time)
+                const convertedTime = date.toLocaleString('en-US', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                  })
+                times.push(convertedTime)
+                // times.push(item_dashboard.time)
+
+                voltages.push(item_dashboard.voltage)
+
+                //generating random unit cost between BDT 4.6 to 6.7
+                // const randomDecimal = Math.random()
+                // let randomCost = 4.6 + randomDecimal * (6.7 - 4.6)
+
+                //calculating consumed energy per timeInterval
+                // const power = item.current * item.voltage
+                // let energy = (power / 1000) * (timeInterval / 3600)
+                // energy = Number(energy.toFixed(4))
+
+                //calculating consumed cost per timeInterval
+                // let cost = energy * randomCost
+                // cost = Number(cost.toFixed(4))
+
+                // energies.push(energy)
+                // unitCosts.push(cost)
             })
             setPowerData(powers)
             setCurrentData(currents)
             setTimeData(times)
             setVoltageData(voltages)
+
+            response_energycost.data.map(item_energycost => {
+                console.log("item energycost: ", item_energycost)
+
+                energies.push(item_energycost.energy)
+                costs.push(item_energycost.cost)
+                en_cost_times.push(item_energycost.time)
+            })
             setEnergyData(energies)
-            setUnitCostData(unitCosts)
+            setCostData(costs)
+            setEnergyCostTimeData(en_cost_times)
         } catch (error) {
             console.error(error);
         }
@@ -154,8 +223,16 @@ const ViewUsageData = () => {
 
     const OptionsChartLine = {
         chart: {
+            id: 'apexchart-example',
             height: 550,
-            type: 'area'
+            // type: 'line'
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '55%',
+                endingShape: 'rounded',
+            },
         },
         xaxis: {
             type: '',
@@ -185,15 +262,15 @@ const ViewUsageData = () => {
             data: energyData
         },
         {
-            name: 'Unit Cost (BDT)',
-            data: unitCostData
+            name: 'Cost (BDT)',
+            data: costData
         }
     ]
 
     const SeriesChartLine_unitCost = [
         {
-            name: 'Unit Cost (BDT)',
-            data: unitCostData
+            name: 'Cost (BDT)',
+            data: costData
         },
     ]
 
@@ -203,7 +280,7 @@ const ViewUsageData = () => {
             data: currentData
         },
         {
-            name: 'Power (watt)',
+            name: 'Power (kilowatt)',
             data: powerData
         }
     ]
@@ -231,9 +308,8 @@ const ViewUsageData = () => {
             setIs_Current_vs_Power_Hidden(false);
         };
 
-        // setInterval(getUsageData, 5000)
-        console.log(usageData)
-        let count = 0
+        setInterval(getData, 10000)
+        // console.log(usageData)
         if (usageData != 0) {
             return (
                 <>
@@ -245,54 +321,58 @@ const ViewUsageData = () => {
 
                         <div className="body-topnbottom">
                             <center>
-                                <h4 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-2xl lg:text-4xl dark:text-white"> All Available <mark class="px-2 text-white bg-green-400 rounded dark:bg-blue-500">Usage</mark> Data </h4>
+                                <h4 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-2xl lg:text-4xl dark:text-white"> Real Time <mark class="px-2 text-white bg-green-400 rounded dark:bg-blue-500">Usage</mark> Data </h4>
                                 <br></br>
                                 <button type="button" onClick={show_kWh_vs_UnitCost} class="text-gray-900 bg-white border border-green-300 focus:outline-none hover:bg-green-200 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">kWh - Unit Cost</button>
                                 <button type="button" onClick={show_UnitCost} class="text-gray-900 bg-white border border-green-300 focus:outline-none hover:bg-green-200 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Unit Cost</button>
                                 <button type="button" onClick={show_Current_vs_Power} class="text-gray-900 bg-white border border-green-300 focus:outline-none hover:bg-green-200 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Current - Power</button>
                                 <br></br> <br></br>
-                                {/* <ReactApexChart options={state.options} series={state.series} type="area" height={350} width={1000} /> */}
 
-                                {/* <ReactApexChart
-                                    options={{
-                                        chart: {
-                                            id: 'apexchart-example',
-                                            height: 350,
-                                            type: 'area'
-                                        },
-                                        xaxis: {
-                                            type: '',
-                                            categories: timeData
-                                        },
-                                        dataLabels: {
-                                            enabled: true
-                                        },
-                                        stroke: {
-                                            curve: 'smooth'
-                                        },
-                                        tooltip: {
-                                            x: {
-                                                format: 'dd/MM'
-                                            },
-                                        },
-                                    }}
-                                    series={[
-                                        {
-                                            name: 'Current',
-                                            data: currentData
-                                        },
-                                        {
-                                            name: 'Power',
-                                            data: powerData
-                                        }
-                                    ]}
-                                    type="area" height={350} width={1000} /> */}
+                                {/* <ReactApexChart options={state.options} series={state.series} type="area" height={350} width={1000} /> */}
+                                {/* <div className="graph-container">
+                                    <div className="graph-content">
+                                        <ReactApexChart
+                                            options={{
+                                                chart: {
+                                                    id: 'apexchart-example',
+                                                    height: 350,
+                                                    type: 'area'
+                                                },
+                                                xaxis: {
+                                                    type: '',
+                                                    categories: timeData
+                                                },
+                                                dataLabels: {
+                                                    enabled: false
+                                                },
+                                                stroke: {
+                                                    curve: 'smooth'
+                                                },
+                                                tooltip: {
+                                                    x: {
+                                                        format: 'dd/MM'
+                                                    },
+                                                },
+                                            }}
+                                            series={[
+                                                {
+                                                    name: 'Current',
+                                                    data: currentData
+                                                },
+                                                {
+                                                    name: 'Power',
+                                                    data: powerData
+                                                }
+                                            ]}
+                                            type="area" height={500} width={1400} />
+                                    </div>
+                                </div> */}
 
                                 <div className="graph-container">
                                     {is_kWh_vs_UnitCost_Hidden ? null : (
 
                                         <div className="graph-content">
-                                            <Chart options={OptionsChartLine} series={SeriesChartLine_kWh_vs_unitCost} height={500} width={1400} />
+                                            <Chart options={OptionsChartLine} series={SeriesChartLine_kWh_vs_unitCost} type="area" height={500} width={1400} />
                                         </div>
 
                                     )}
@@ -300,7 +380,7 @@ const ViewUsageData = () => {
                                     {is_UnitCost_Hidden ? null : (
 
                                         <div className="graph-content">
-                                            <Chart options={OptionsChartLine} series={SeriesChartLine_unitCost} height={500} width={1400} />
+                                            <Chart options={OptionsChartLine} series={SeriesChartLine_unitCost} type="area" height={500} width={1400} />
                                         </div>
 
                                     )}
@@ -308,7 +388,7 @@ const ViewUsageData = () => {
                                     {is_Current_vs_Power_Hidden ? null : (
 
                                         <div className="graph-content">
-                                            <Chart options={OptionsChartLine} series={SeriesChartLine_current_vs_power} height={500} width={1400} />
+                                            <Chart options={OptionsChartLine} series={SeriesChartLine_current_vs_power} type="area" height={500} width={1400} />
                                         </div>
 
                                     )}
@@ -358,7 +438,7 @@ const ViewUsageData = () => {
                                                         <td class="px-6 py-2">{item.time}</td>
                                                         {/* Assuming energyData is an array and you want to access it using index */}
                                                         <td class="px-6 py-2">{energyData[index]}</td>
-                                                        <td class="px-6 py-2">{unitCostData[index]}</td>
+                                                        <td class="px-6 py-2">{costData[index]}</td>
                                                         <td class="px-6 py-2">{item.c_id}</td>
                                                     </tr>
                                                 );
@@ -401,7 +481,6 @@ const ViewUsageData = () => {
             )
         }
     };
-
 
     return (
         <div>

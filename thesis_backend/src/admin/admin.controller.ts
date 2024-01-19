@@ -12,10 +12,15 @@ export class AdminController {
         return this.adminService.checkMessage();
     }
 
+    @Post('testing')
+    setValue(@Body() values: DatabaseDTO) {
+        return this.adminService.setValue(values)
+    }
+
     @Post('register')
     @UsePipes(new ValidationPipe())
     regAdmin(@Body() adminRegInfo: AdminRegDTO): any {
-        console.log(adminRegInfo);
+        console.log("Admin Registration Info: ", adminRegInfo);
 
         return this.adminService.regAdmin(adminRegInfo)
 
@@ -29,13 +34,14 @@ export class AdminController {
     @Post('login')
     @UsePipes(new ValidationPipe())
     async loginAdmin(@Body() adminLoginInfo: AdminLoginDTO, @Session() session) {
-        console.log(adminLoginInfo);
+        console.log("Admin Login Credentials: ", adminLoginInfo);
 
         const result = await this.adminService.loginAdmin(adminLoginInfo);
 
         if (result) {
             session.username = adminLoginInfo.username;
-            console.log("login session username: " + session.username)
+            console.log("Admin Login Session Username: " + session.username)
+
             return "Admin Login Successful!"
         } else {
             return new NotFoundException({ message: "Admin Not Found!" })
@@ -50,7 +56,7 @@ export class AdminController {
 
     @Get('citizens')
     getCitizensID(): any {
-        return this.adminService.getCitizensID();
+        return this.adminService.getCitizens();
     }
 
     @Get('dashboard')
@@ -82,9 +88,11 @@ export class AdminController {
         return res
     }
 
-    @Post('testing')
-    setValue(@Body() values: DatabaseDTO) {
-        return this.adminService.setValue(values)
+    @Get('energy_cost/:c_id')
+    async getEnergy(@Param("c_id", ParseIntPipe) c_id: number, @Session() session) {
+        const res = await this.adminService.getCalculatedAndSavedEnergy_Cost(c_id, session.username)
+
+        return res
     }
 
     @Post('logout')

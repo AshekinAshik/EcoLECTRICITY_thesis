@@ -3,12 +3,12 @@ import { AdminController } from "./admin.controller";
 import { AdminService } from "./admin.service";
 import { DatabaseModule } from "src/database/database.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { UsageLOGEntity } from "src/database/database.entity";
+import { DailyEnergyCostEntity, EnergyCostEntity, UsageLOGEntity } from "src/database/database.entity";
 import { AdminEntity } from "./admin.entity";
 import { CitizenEntity } from "src/citizen/citizen.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([UsageLOGEntity, AdminEntity, CitizenEntity])],
+    imports: [TypeOrmModule.forFeature([UsageLOGEntity, AdminEntity, CitizenEntity, EnergyCostEntity, DailyEnergyCostEntity])],
     controllers: [AdminController],
     providers: [AdminService]
 })

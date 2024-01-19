@@ -1,12 +1,10 @@
 import { useEffect } from "react";
 import { initFlowbite } from "flowbite";
 import Head from "next/head";
-import Image from "next/image";
 import Script from "next/script";
-import Link from "next/link";
 
 
-const WebHeader_V1 = ({title}) => {
+const WebHeader_V1 = ({ title }) => {
     useEffect(() => {
         initFlowbite();
     }, [])

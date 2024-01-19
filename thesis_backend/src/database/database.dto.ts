@@ -27,3 +27,9 @@ export class DatabaseDTO {
     c_id:number
     cdate:Date
 }
+
+export class TotalDailyEnergyCostDTO {
+    energy: number
+    cost: number
+    c_id: number
+}
