@@ -47,8 +47,9 @@ export class CitizenController {
     }
 
     @Get('energy_cost')
-    async getEnergyAndCost(@Session() session) {
-        const res = await this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
+    getEnergyAndCost(@Session() session) {
+        // const res = await this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
+        //return res
 
         // if (res) {
         //     return res
@@ -56,12 +57,12 @@ export class CitizenController {
         //     return "Today's Energy-Cost is already uploaded!"
         // }
 
-        return res
+        return this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
     }
 
     @Get('daily_energy_cost')
-    async getDailyEnergyAndCost(@Session() session) {
-        const res = await this.citizenService.getDailyCalculatedAndSaveEnergy_Cost(session.contact)
+    getDailyEnergyAndCost(@Session() session): any {
+        // const res = await this.citizenService.getDailyCalculatedAndSaveEnergy_Cost(session.contact)
 
         // if (res) {
         //     return res
@@ -69,6 +70,6 @@ export class CitizenController {
         //     return "Today's Energy-Cost is already uploaded!"
         // }
 
-        return res
+        return this.citizenService.getDailyCalculatedAndSaveEnergy_Cost(session.contact)
     }
 }

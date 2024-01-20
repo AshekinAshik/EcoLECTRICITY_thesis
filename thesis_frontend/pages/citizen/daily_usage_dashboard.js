@@ -2,13 +2,13 @@ import WebLayout from "../layout/layout";
 
 const { default: dynamic } = require("next/dynamic");
 
-const DynamicViewUsageData = dynamic(() => import('../component/citizenComp/viewUsageDashbaord'), { ssr: false });
+const DynamicViewDailyUsageData = dynamic(() => import('../component/citizenComp/viewDailyUsageData'), { ssr: false });
 
-const CitizenDashboardPage = () => {
+const CitizenDailyUsageDashboardPage = () => {
     return (
         <>
             <div>
-                <DynamicViewUsageData />
+                <DynamicViewDailyUsageData />
             </div>
 
             {/* <WebLayout title="Dashboard - Usage Data">
@@ -20,4 +20,4 @@ const CitizenDashboardPage = () => {
     )
 };
 
-export default CitizenDashboardPage;
+export default CitizenDailyUsageDashboardPage;

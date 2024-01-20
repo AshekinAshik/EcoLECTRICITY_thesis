@@ -7,8 +7,8 @@ import WebLayout_V1 from "../layout/layout_v1";
 import WebFooter from "../layout/footer";
 import WebHeader_V1 from "../layout/header_v1";
 import dynamic from "next/dynamic";
-import MenuDrawer from "../layout/admin_menudrawer";
 import Image from "next/image";
+import MenuDrawer_Admin from "../layout/admin_menudrawer";
 // import SessionCheck from "../utils/sessionCheck";
 
 const CitizenUsages = () => {
@@ -110,7 +110,7 @@ const CitizenUsages = () => {
 
           <body className="bg-light">
             <WebHeader_V1 title={"Citizen Usage Data"} />
-            <MenuDrawer />
+            <MenuDrawer_Admin />
 
             <div className="body-topnbottom">
               <center>
@@ -130,8 +130,8 @@ const CitizenUsages = () => {
 
               </center>
             </div>
-            <WebFooter />
           </body>
+          <WebFooter />
         </>
       )
     } else {

@@ -21,7 +21,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/component/citizenComp/bkash_v2.js"  ],
+, "pages/component/citizenComp/bkash_v2.js", "pages/component/citizenComp/viewDailyUsageData.js"  ],
   "exclude": [
     "node_modules"
   ]

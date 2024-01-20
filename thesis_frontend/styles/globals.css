@@ -51,6 +51,16 @@ html {
   min-height: 100%;
 } */
 
+/* CONTENTS 
+
+- BODY
+- HEADER
+- FOOTER
+- GRAPH CONTAINER
+- EKPAY IFRAME
+
+CONTENTS */
+
 body {
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
@@ -306,28 +316,102 @@ div.center {
   z-index: 9999;
 }
 
+
+/* GRAPH ADMIN
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
 .graph-container {
   position: relative;
-  width: 1438px;
-  height: 532px;
-  top: -11px;
-  left: 8px;
+  /* width: 1438px;
+  height: 532px; */
+  width: 70%;
+  height: 1500px;
+  /* top: -11px;
+  left: 8px; */
   overflow: hidden;
   margin: 0 auto;
-  background-color: white;
+  /* background-color: crimson; */
   border-radius: 10px;
   padding: 20px;
   box-sizing: border-box;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
-.graph-content {
-  position: absolute;
-  top: 23px;
-  left: 18px;
-  width: 1000px;
-  height: 1500px;
+.power_current_container {
+  position: relative;
+  width: 90%;
+  height: 450px;
+  top: -10px;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: azure;
 }
+
+.energy_cost_container {
+  position: relative;
+  width: 90%;
+  height: 450px;
+  top: 30px;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: azure;
+}
+
+.cost_container {
+  position: relative;
+  width: 90%;
+  height: 450px;
+  top: 70px;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: azure;
+}
+
+.power_current_container .graph-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  top: 30px;
+  /* left: 18px;
+  width: 1000px;
+  height: 1500px; */
+}
+
+.energy_cost_container .graph-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  top: 30px;
+  /* left: 18px;
+  width: 1000px;
+  height: 1500px; */
+}
+
+.cost_container .graph-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  top: 30px;
+  /* left: 18px;
+  width: 1000px;
+  height: 1500px; */
+}
+
+/* GRAPH ADMIN
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+
+/* EKPAY
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 .iframeContainer {
   position: relative;
@@ -350,6 +434,9 @@ div.center {
   width: 1330px;
   height: 732px;
 }
+
+/* EKPAY
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 /* container {
   display: flex;
