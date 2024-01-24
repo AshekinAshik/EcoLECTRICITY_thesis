@@ -174,31 +174,30 @@ const ViewDailyUsageData = () => {
                                     </div>
                                 </div> */}
 
-                                <div className="graph-container">
-                                    {is_Energy_vs_Cost_Hidden ? null : (
 
+                                {is_Energy_vs_Cost_Hidden ? null : (
+                                    <div className="graph-container-customer-daily-energycost">
                                         <div className="graph-content">
-                                            <Chart options={OptionsChartLine} series={SeriesChartLine_Energy_vs_Cost} type="area" height={500} width={1400} />
+                                            <Chart options={OptionsChartLine} series={SeriesChartLine_Energy_vs_Cost} type="area" height={410} width={1200} />
                                         </div>
+                                    </div>
+                                )}
 
-                                    )}
-
-                                    {is_Cost_Hidden ? null : (
-
+                                {is_Cost_Hidden ? null : (
+                                    <div className="graph-container-customer-daily-energycost">
                                         <div className="graph-content">
-                                            <Chart options={OptionsChartLine} series={SeriesChartLine_Cost} type="area" height={500} width={1400} />
+                                            <Chart options={OptionsChartLine} series={SeriesChartLine_Cost} type="area" height={410} width={1200} />
                                         </div>
+                                    </div>
+                                )}
 
-                                    )}
-
-                                    {is_Energy_Hidden ? null : (
-
+                                {is_Energy_Hidden ? null : (
+                                    <div className="graph-container-customer-daily-energycost">
                                         <div className="graph-content">
-                                            <Chart options={OptionsChartLine} series={SeriesChartLine_Energy} type="area" height={500} width={1400} />
+                                            <Chart options={OptionsChartLine} series={SeriesChartLine_Energy} type="area" height={410} width={1200} />
                                         </div>
-
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                                 <br></br>
 
                                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -237,8 +236,8 @@ const ViewDailyUsageData = () => {
                                 </div>
                             </center>
                         </div>
-                        <WebFooter />
                     </body>
+                    <WebFooter />
                 </>
 
             )

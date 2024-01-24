@@ -53,11 +53,13 @@ html {
 
 /* CONTENTS 
 
-- BODY
-- HEADER
-- FOOTER
-- GRAPH CONTAINER
-- EKPAY IFRAME
+- body
+- header
+- footer
+- graph container
+- iframe ekpay
+- glass sidenav
+- datepicker input date
 
 CONTENTS */
 
@@ -87,7 +89,8 @@ body {
   align-items: center;
 
   position: relative;
-  margin: 0 auto; /* make the content horizontally center*/
+  margin: 0 auto;
+  /* make the content horizontally center*/
   min-height: 100%;
   width: 50%;
 }
@@ -317,24 +320,46 @@ div.center {
 }
 
 
-/* GRAPH ADMIN
+/* GRAPH CONTAINER for CITIZEN starts
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
-.graph-container {
+.graph-container-customer-realtime-energycost {
   position: relative;
+
   /* width: 1438px;
-  height: 532px; */
+  height: 532px;
+  top: -11px;
+  left: 8px; */
+
   width: 70%;
   height: 1500px;
-  /* top: -11px;
-  left: 8px; */
   overflow: hidden;
   margin: 0 auto;
-  /* background-color: crimson; */
   border-radius: 10px;
   padding: 20px;
   box-sizing: border-box;
+
+  /* background-color: crimson; */
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.graph-container-customer-daily-energycost {
+  position: relative;
+
+  /* width: 1438px;
+  height: 532px;
+  top: -11px;
+  left: 8px; */
+
+  width: 70%;
+  height: 450px;
+  overflow: hidden;
+  margin: 0 auto;
+  background-color: azure;
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
 }
 
 .power_current_container {
@@ -381,6 +406,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
   width: 100%;
   height: 100%;
   top: 30px;
+
   /* left: 18px;
   width: 1000px;
   height: 1500px; */
@@ -391,9 +417,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
   width: 100%;
   height: 100%;
   top: 30px;
-  /* left: 18px;
-  width: 1000px;
-  height: 1500px; */
 }
 
 .cost_container .graph-content {
@@ -401,16 +424,25 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
   width: 100%;
   height: 100%;
   top: 30px;
-  /* left: 18px;
+}
+
+.graph-container-customer-daily-energycost .graph-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+
+  /* background-color: black;
+  left: 18px;
   width: 1000px;
   height: 1500px; */
 }
 
-/* GRAPH ADMIN
+/* GRAPH CITIZEN ends
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 
-/* EKPAY
+/* EKPAY IFRAME starts
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 .iframeContainer {
@@ -435,8 +467,50 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
   height: 732px;
 }
 
-/* EKPAY
+/* EKPAY IFRAME ends
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+
+/* DATEPICKER INPUT DATE starts
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+input[type="date"] {
+  /* Optional: Set a custom font family and size */
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+
+  /* Optional: Adjust padding and margin for better spacing */
+  padding: 10px;
+  margin: 8px;
+
+  /* Optional: Set border and border-radius for a rounded appearance */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+  /* Optional: Set background color */
+  background-color: #f4f4f4;
+
+  /* Optional: Customize text color */
+  color: #333;
+
+  /* Optional: Disable default browser styles */
+  appearance: none;
+}
+
+/* Style for the arrow button in some browsers */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  /* Optional: Customize appearance or hide the default arrow */
+  background-color: transparent;
+  color: #333;
+  cursor: pointer;
+}
+
+/* DATEPICKER INPUT DATE ends
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+
+
+
 
 /* container {
   display: flex;

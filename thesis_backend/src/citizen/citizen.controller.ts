@@ -43,10 +43,24 @@ export class CitizenController {
         // const year = dateObj.getFullYear();
         // console.log(`${day} ${month} ${year}`)
 
-        return this.citizenService.getUsageData(session.contact);
+        return this.citizenService.getUsage(session.contact);
     }
 
-    @Get('energy_cost')
+    @Get('realtime_usage')
+    getRealTimeUsageData(@Session() session): any {
+        // const now = new Date();
+        // const dateObj = new Date();
+        // const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        // const day = ('0' + dateObj.getDate()).slice(-2);
+        // const month = months[dateObj.getMonth()];
+        // const year = dateObj.getFullYear();
+        // console.log(`${day} ${month} ${year}`)
+
+        return this.citizenService.getRealTimeUsage(session.contact);
+    }
+
+
+    @Get('realtime_energy_cost')
     getEnergyAndCost(@Session() session) {
         // const res = await this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
         //return res
@@ -57,7 +71,21 @@ export class CitizenController {
         //     return "Today's Energy-Cost is already uploaded!"
         // }
 
-        return this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
+        return this.citizenService.getRealTimeEnegyCost(session.contact)
+    }
+
+    @Get('energy_cost/:date')
+    getEnergyAndCostByDate(@Param('date') date: any, @Session() session) {
+        // const res = await this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
+        //return res
+
+        // if (res) {
+        //     return res
+        // } else {
+        //     return "Today's Energy-Cost is already uploaded!"
+        // }
+
+        return this.citizenService.getEnegyCostByDate(session.contact, date)
     }
 
     @Get('daily_energy_cost')
@@ -70,6 +98,6 @@ export class CitizenController {
         //     return "Today's Energy-Cost is already uploaded!"
         // }
 
-        return this.citizenService.getDailyCalculatedAndSaveEnergy_Cost(session.contact)
+        return this.citizenService.getDailyEnergyCost(session.contact)
     }
 }

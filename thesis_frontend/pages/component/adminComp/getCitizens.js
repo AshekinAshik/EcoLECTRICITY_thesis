@@ -17,6 +17,7 @@ const GetCitizens = () => {
     })
 
     useEffect(() => {
+        console.log("calling from useEffect")
         getCitizensData();
     }, []);
 
@@ -28,7 +29,7 @@ const GetCitizens = () => {
         e.preventDefault();
 
         searchData.c_id = parseInt(searchData.c_id);
-        console.log(searchData);
+        console.log("Searched Citizen ID: ", searchData);
 
         try {
             const response = await axios.get(process.env.NEXT_PUBLIC_API_ADMIN_BASE_URL + 'search/citizen/' + searchData.c_id, {
