@@ -5,7 +5,7 @@ const WebFooter_V1 = () => {
             <footer class="glass-footer-v1">
                 <div class="w-full mx-auto max-w-screen- p-4 text-center">
                     <span class="text-sm text-white">
-                        © 2023 <a href="../EcoLECTRICITY" class="hover:underline">EcoLECTRICITY</a>. All Rights Reserved.
+                        © 2024 <a href="../EcoLECTRICITY" class="hover:underline">EcoLECTRICITY</a>. All Rights Reserved.
                     </span>
                 </div>  
             </footer>
