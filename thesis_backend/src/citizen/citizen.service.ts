@@ -164,29 +164,40 @@ export class CitizenService {
         return realtime_energycost_Data.length > 0 ? realtime_energycost_Data : "No Energy_Cost Data from Current Date"
     }
 
-    calculateRealTimeEnergy_Cost_v2(usageLogs: any, citizen_id: number) {
-        const energyCost = new EnergyCostDTO()
+    // calculateRealTimeEnergy_Cost_v2(usageLogs: any, citizen_id: number) {
+    //     const energyCost = new EnergyCostDTO()
 
-        const time_hour = 10 / 3600 //for every 10 sec
-        const randomDecimal = Math.random()
-        let randomCost = 4.6 + randomDecimal * (6.7 - 4.6)
+    //     const time_hour = 10 / 3600
+    //     const randomDecimal = Math.random()
+    //     let randomCost = 4.6 + randomDecimal * (6.7 - 4.6)
 
-        let energyCosts: EnergyCostDTO[] = new Array<EnergyCostDTO>
-        let count = 0
+    //     let energyCosts: EnergyCostDTO[] = new Array<EnergyCostDTO>
+    //     let count = 0
 
-        for (const usageLog of usageLogs) {
-            energyCost.energy = Number(((usageLog.power / 1000) * time_hour).toFixed(4))
+    //     for (const usageLog of usageLogs) {
+    //         energyCost.energy = Number(((usageLog.power / 1000) * time_hour).toFixed(4))
 
-            const randomDecimal = Math.random()
-            let randomCost = 4.6 + randomDecimal * (6.7 - 4.6)
-            energyCost.cost = Number((energyCost.energy * randomCost).toFixed(4))
+    //         const randomDecimal = Math.random()
+    //         let randomCost = 4.6 + randomDecimal * (6.7 - 4.6)
+    //         energyCost.cost = Number((energyCost.energy * randomCost).toFixed(4))
 
-            energyCost.c_id = citizen_id
-            energyCosts[count] = energyCost
-            count++
-        }
+    //         energyCost.c_id = citizen_id
+    //         energyCosts[count] = energyCost
+    //         count++
+    //     }
 
-        return energyCosts
+    //     return energyCosts
+    // }
+
+    calculateRealTimeEnergyCost_v2(usageLogs: any[], citizenId: number): EnergyCostDTO[] {
+        const timeHour = 10 / 3600; // Precalculate and store for efficiency
+        const randomCostRange = 6.7 - 4.6; // Precalculate and store
+
+        return usageLogs.map((usageLog) => ({
+            energy: Number(((usageLog.power / 1000) * timeHour).toFixed(4)),
+            cost: Number((usageLog.power / 1000 * timeHour * (4.6 + Math.random() * randomCostRange)).toFixed(4)),
+            c_id: citizenId,
+        }));
     }
 
     async getRealTimeEnergyCostData_v2(contact: number) {
@@ -204,7 +215,7 @@ export class CitizenService {
         console.log("Total Number of Usage Data from Current Date in Usage_Logs table: ", usageLogs.length)
 
         if (usageLogs.length > 0) {
-            const energyCosts = this.calculateRealTimeEnergy_Cost_v2(usageLogs, citizen.id);
+            const energyCosts = this.calculateRealTimeEnergyCost_v2(usageLogs, citizen.id);
             // energyCosts.forEach((energyCost) => energyCost.c_id = citizen.id);
 
             console.log("Inserting Values into Energy_Cost Table")
