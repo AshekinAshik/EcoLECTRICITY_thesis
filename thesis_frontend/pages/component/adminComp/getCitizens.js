@@ -3,10 +3,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import WebLayout_V1 from "../../layout/layout_v1";
-import MenuDrawer from "../../layout/admin_menudrawer";
 import WebHeader_V1 from "../../layout/header_v1";
 import WebFooter from "../../layout/footer";
-import MenuDrawer_Citizen from "../../layout/citizen_menudrawer";
+import MenuDrawer_Admin from "../../layout/admin_menudrawer";
 
 const GetCitizens = () => {
     const router = useRouter();
@@ -66,7 +65,7 @@ const GetCitizens = () => {
 
             <body className="bg-full-screen">
                 <WebHeader_V1 title={"Citizen List"} />
-                <MenuDrawer_Citizen />
+                <MenuDrawer_Admin />
 
                 <div className="body-topnbottom body-sideadjustment">
                     <center>

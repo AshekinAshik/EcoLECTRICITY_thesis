@@ -34,7 +34,7 @@ export class CitizenController {
     }
 
     @Get('dashboard')
-    getUsageData(@Session() session): any {
+    getAllUsageData(@Session() session): any {
         // const now = new Date();
         // const dateObj = new Date();
         // const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -43,7 +43,7 @@ export class CitizenController {
         // const year = dateObj.getFullYear();
         // console.log(`${day} ${month} ${year}`)
 
-        return this.citizenService.getUsage(session.contact);
+        return this.citizenService.getAllUsage(session.contact);
     }
 
     @Get('realtime_usage')
@@ -56,12 +56,12 @@ export class CitizenController {
         // const year = dateObj.getFullYear();
         // console.log(`${day} ${month} ${year}`)
 
-        return this.citizenService.getRealTimeUsage(session.contact);
+        return this.citizenService.getRealTimeUsageData(session.contact);
     }
 
 
     @Get('realtime_energy_cost')
-    getEnergyAndCost(@Session() session) {
+    getRealTimeEnergyAndCostData(@Session() session) {
         // const res = await this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
         //return res
 
@@ -71,11 +71,25 @@ export class CitizenController {
         //     return "Today's Energy-Cost is already uploaded!"
         // }
 
-        return this.citizenService.getRealTimeEnergyCost(session.contact)
+        return this.citizenService.getRealTimeEnergyCostData(session.contact)
+    }
+
+    @Get('usage/:date')
+    getUsageByDate(@Param('date') date: any, @Session() session) {
+        // const res = await this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
+        //return res
+
+        // if (res) {
+        //     return res
+        // } else {
+        //     return "Today's Energy-Cost is already uploaded!"
+        // }
+
+        return this.citizenService.getUsageByDate(session.contact, date)
     }
 
     @Get('energy_cost/:date')
-    getEnergyAndCostByDate(@Param('date') date: any, @Session() session) {
+    getEnergyCostByDate(@Param('date') date: any, @Session() session) {
         // const res = await this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
         //return res
 
@@ -85,11 +99,11 @@ export class CitizenController {
         //     return "Today's Energy-Cost is already uploaded!"
         // }
 
-        return this.citizenService.getEnegyCostByDate(session.contact, date)
+        return this.citizenService.getEnergyCostByDate(session.contact, date)
     }
 
     @Get('daily_energy_cost')
-    getDailyEnergyAndCost(@Session() session): any {
+    getDailyEnergyAndCostData(@Session() session): any {
         // const res = await this.citizenService.getDailyCalculatedAndSaveEnergy_Cost(session.contact)
 
         // if (res) {
@@ -98,6 +112,6 @@ export class CitizenController {
         //     return "Today's Energy-Cost is already uploaded!"
         // }
 
-        return this.citizenService.getDailyEnergyCost(session.contact)
+        return this.citizenService.getDailyEnergyCostData(session.contact)
     }
 }

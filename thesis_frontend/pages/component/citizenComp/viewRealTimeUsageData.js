@@ -14,7 +14,7 @@ const ViewRealTimeUsageData = () => {
     const [usageData, setUsageData] = useState([]);
     const [powerData, setPowerData] = useState([])
     const [currentData, setCurrentData] = useState([])
-    const [voltageData, setVoltageData] = useState([])
+    // const [voltageData, setVoltageData] = useState([])
     const [timeData, setTimeData] = useState([])
 
     const [energyCostData, setEnergyCostData] = useState([])
@@ -22,10 +22,20 @@ const ViewRealTimeUsageData = () => {
     const [costData, setCostData] = useState([])
     const [energycostTimeData, setEnergyCostTimeData] = useState([])
 
-    const [date, setDate] = useState()
-    const [DataByDate, setDataByDate] = useState([])
-
     const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
+
+    const convertDate = (time) => {
+        const date = new Date(time)
+        const convertedTime = date.toLocaleString('en-US', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+        })
+        return convertedTime
+    }
 
     useEffect(() => {
         console.log("calling from useEffect")
@@ -33,7 +43,7 @@ const ViewRealTimeUsageData = () => {
         async function getData() {
             const powers = []
             const currents = []
-            const voltages = []
+            // const voltages = []
             const usage_times = []
 
             const energies = []
@@ -55,43 +65,20 @@ const ViewRealTimeUsageData = () => {
                 setEnergyCostData(response_realtime_energycost.data)
                 console.log("Response Realtime Energy_Cost: ", response_realtime_energycost)
 
-                // const timeInterval = 10
                 response_realtime_usage.data.map(item_usage => {
                     console.log("Item Usage: ", item_usage)
 
                     currents.push(item_usage.current)
 
                     //Retrieving Power data and converting to kW
-                    let power_kWh = (item_usage.power) / 1000
-                    power_kWh = Number(power_kWh.toFixed(2))
-                    powers.push(power_kWh)
-                    // powers.push((item_usage.power)/1000)
-                    // powers.push(item_usage.power)
+                    powers.push(Number((item_usage.power / 1000).toFixed(2)))
 
                     usage_times.push(convertDate(item_usage.time))
-                    // usage_times.push(item_usage.time)
-
-                    voltages.push(item_usage.voltage)
-
-                    //generating random unit cost between BDT 4.6 to 6.7
-                    // const randomDecimal = Math.random()
-                    // let randomCost = 4.6 + randomDecimal * (6.7 - 4.6)
-
-                    //calculating consumed energy per timeInterval
-                    // const power = item.current * item.voltage
-                    // let energy = (power / 1000) * (timeInterval / 3600)
-                    // energy = Number(energy.toFixed(4))
-
-                    //calculating consumed cost per timeInterval
-                    // let cost = energy * randomCost
-                    // cost = Number(cost.toFixed(4))
-
-                    // energies.push(energy)
-                    // unitCosts.push(cost)
+                    // voltages.push(item_usage.voltage)
                 })
                 setPowerData(powers)
                 setCurrentData(currents)
-                setVoltageData(voltages)
+                // setVoltageData(voltages)
                 setTimeData(usage_times)
 
                 response_realtime_energycost.data.map(item_energycost => {
@@ -115,177 +102,10 @@ const ViewRealTimeUsageData = () => {
         // return () => clearInterval(interval)
     }, []);
 
-    const convertDate = (time) => {
-        const date = new Date(time)
-        const convertedTime = date.toLocaleString('en-US', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-        })
-        return convertedTime
-    }
-
-    const handleDatePicker = (e) => {
-        setDate(e.target.value);
-    }
-
-    // const getData = async () => {
-    //     const currents = []
-    //     const powers = []
-    //     const usage_times = []
-    //     const voltages = []
-    //     const costs = []
-    //     const energies = []
-    //     const en_cost_times = []
-
-    //     try {
-    //         const response_realtime_usage = await axios.get(process.env.NEXT_PUBLIC_API_CITIZEN_BASE_URL + 'dashboard',
-    //             {
-    //                 withCredentials: true
-    //             })
-    //         setUsageData(response_realtime_usage.data)
-    //         console.log("response dashboard: ", response_realtime_usage)
-
-    //         const response_realtime_energycost = await axios.get(process.env.NEXT_PUBLIC_API_CITIZEN_BASE_URL + 'energy_cost',
-    //             {
-    //                 withCredentials: true
-    //             })
-    //         setEnergyCostData(response_realtime_energycost.data)
-    //         console.log("response energycost: ", response_realtime_energycost)
-
-    //         // const timeInterval = 10
-    //         response_realtime_usage.data.map(item_usage => {
-    //             console.log("item dashboard: ", item_usage)
-
-    //             currents.push(item_usage.current)
-
-    //             //Retrieving Power data and converting to kW
-    //             let power_kWh = (item_usage.power) / 1000
-    //             power_kWh = Number(power_kWh.toFixed(2))
-    //             powers.push(power_kWh)
-    //             // powers.push((item_usage.power)/1000)
-    //             // powers.push(item_usage.power)
-
-    //             usage_times.push(convertDate(item_usage.time))
-    //             // usage_times.push(item_usage.time)
-
-    //             voltages.push(item_usage.voltage)
-
-    //             //generating random unit cost between BDT 4.6 to 6.7
-    //             // const randomDecimal = Math.random()
-    //             // let randomCost = 4.6 + randomDecimal * (6.7 - 4.6)
-
-    //             //calculating consumed energy per timeInterval
-    //             // const power = item.current * item.voltage
-    //             // let energy = (power / 1000) * (timeInterval / 3600)
-    //             // energy = Number(energy.toFixed(4))
-
-    //             //calculating consumed cost per timeInterval
-    //             // let cost = energy * randomCost
-    //             // cost = Number(cost.toFixed(4))
-
-    //             // energies.push(energy)
-    //             // unitCosts.push(cost)
-    //         })
-    //         setPowerData(powers)
-    //         setCurrentData(currents)
-    //         setTimeData(usage_times)
-    //         setVoltageData(voltages)
-
-    //         response_realtime_energycost.data.map(item_energycost => {
-    //             console.log("item energycost: ", item_energycost)
-
-    //             energies.push(item_energycost.energy)
-    //             costs.push(item_energycost.cost)
-    //             en_cost_times.push(item_energycost.time)
-    //         })
-    //         setEnergyData(energies)
-    //         setCostData(costs)
-    //         setEnergyCostTimeData(en_cost_times)
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
-
-    // return (
-    //     <>
-    //         {/* <SessionCheck /> */}
-
-    //         <br></br> <br></br><br></br>
-    //         <body>
-    //             <center>
-
-    //                 <h4 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-4xl dark:text-white"> All Available <mark class="px-2 text-white bg-green-400 rounded dark:bg-blue-500">Usage</mark> Data </h4>
-    //                 <br></br>
-
-    //                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    //                     <table class="w-full text-sm text-center text-gray-800 dark:text-gray-400">
-    //                         <thead class="text-extrabold text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-    //                             <tr>
-    //                                 <th scope="col" class="px-6 py-5">
-    //                                     Log ID
-    //                                 </th>
-    //                                 <th scope="col" class="px-6 py-5">
-    //                                     Power
-    //                                 </th>
-    //                                 <th scope="col" class="px-6 py-5">
-    //                                     Current
-    //                                 </th>
-    //                                 <th scope="col" class="px-6 py-5">
-    //                                     Voltage
-    //                                 </th>
-    //                                 <th scope="col" class="px-6 py-5">
-    //                                     Time
-    //                                 </th>
-    //                                 <th scope="col" class="px-6 py-5">
-    //                                     Citizen ID
-    //                                 </th>
-    //                             </tr>
-    //                         </thead>
-
-    //                         <tbody>
-    //                             {usageData.map((item, index) => (
-    //                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
-    //                                     <td class="px-6 py-2">{item.log_id}</td>
-    //                                     <td class="px-6 py-2">{item.power}</td>
-    //                                     <td class="px-6 py-2">{item.current}</td>
-    //                                     <td class="px-6 py-2">{item.voltage}</td>
-    //                                     <td class="px-6 py-2">{item.time}</td>
-    //                                     <td class="px-6 py-2">{item.c_id}</td>
-    //                                     <td class="px-6 py-2 text-right">
-    //                                         <Link href={"" + item.c_id}>
-    //                                             <button type="button" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"> Details </button>
-    //                                         </Link>
-    //                                     </td>
-    //                                 </tr>
-    //                             ))}
-    //                         </tbody>
-    //                     </table>
-    //                 </div>
-    //             </center>
-    //         </body>
-
-    //     </>
-    // );
-
-    const getDataByDate = async (e) => {
-        e.preventDefault()
-
-        const response_energycost_bydate = await axios.get(process.env.NEXT_PUBLIC_API_CITIZEN_BASE_URL + 'energy_cost/' + date, {
-            withCredentials: true
-        });
-        setDataByDate(response_energycost_bydate.data)
-        console.log("Response Energy_Cost by Date: ", response_energycost_bydate)
-    }
-
     const OptionsChartLine = {
         chart: {
             id: 'apexchart-example',
             height: 550,
-            // type: 'line'
         },
         plotOptions: {
             bar: {
@@ -340,12 +160,11 @@ const ViewRealTimeUsageData = () => {
             data: currentData
         },
         {
-            name: 'Power (kilowatt)',
+            name: 'Power (kW)',
             data: powerData
         }
     ]
 
-    // const showData = () => {
     const [is_Energy_vs_Cost_Hidden, setIs_Energy_vs_Cost_Hidden] = useState(true)
     const [is_Cost_Hidden, setIs_Cost_Hidden] = useState(true)
     const [is_Current_vs_Power_Hidden, setIs_Current_vs_Power_Hidden] = useState(true)
@@ -386,76 +205,6 @@ const ViewRealTimeUsageData = () => {
                     <center>
                         <h4 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-2xl lg:text-4xl dark:text-white"> Real Time <mark class="px-2 text-white bg-green-400 rounded dark:bg-blue-500">Usage</mark> Data </h4>
                         <br></br>
-                        {/* <button type="button" onClick={show_Energy_vs_Cost} class="text-gray-900 bg-white border border-green-300 focus:outline-none hover:bg-green-200 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">kWh - Unit Cost</button>
-                                <button type="button" onClick={show_Cost} class="text-gray-900 bg-white border border-green-300 focus:outline-none hover:bg-green-200 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Unit Cost</button>
-                                <button type="button" onClick={show_Current_vs_Power} class="text-gray-900 bg-white border border-green-300 focus:outline-none hover:bg-green-200 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Current - Power</button>
-                                <br></br> <br></br> */}
-
-                        {/* <ReactApexChart options={state.options} series={state.series} type="area" height={350} width={1000} /> */}
-                        {/* <div className="graph-container">
-                                    <div className="graph-content">
-                                        <ReactApexChart
-                                            options={{
-                                                chart: {
-                                                    id: 'apexchart-example',
-                                                    height: 350,
-                                                    type: 'area'
-                                                },
-                                                xaxis: {
-                                                    type: '',
-                                                    categories: timeData
-                                                },
-                                                dataLabels: {
-                                                    enabled: false
-                                                },
-                                                stroke: {
-                                                    curve: 'smooth'
-                                                },
-                                                tooltip: {
-                                                    x: {
-                                                        format: 'dd/MM'
-                                                    },
-                                                },
-                                            }}
-                                            series={[
-                                                {
-                                                    name: 'Current',
-                                                    data: currentData
-                                                },
-                                                {
-                                                    name: 'Power',
-                                                    data: powerData
-                                                }
-                                            ]}
-                                            type="area" height={500} width={1400} />
-                                    </div>
-                                </div> */}
-
-                        {/* <div className="graph-container">
-                                    {is_Energy_vs_Cost_Hidden ? null : (
-
-                                        <div className="graph-content">
-                                            <Chart options={OptionsChartLine} series={SeriesChartLine_Energy_vs_Cost} type="area" height={500} width={1400} />
-                                        </div>
-
-                                    )}
-
-                                    {is_Cost_Hidden ? null : (
-
-                                        <div className="graph-content">
-                                            <Chart options={OptionsChartLine} series={SeriesChartLine_Cost} type="area" height={500} width={1400} />
-                                        </div>
-
-                                    )}
-
-                                    {is_Current_vs_Power_Hidden ? null : (
-
-                                        <div className="graph-content">
-                                            <Chart options={OptionsChartLine} series={SeriesChartLine_Current_vs_Power} type="area" height={500} width={1400} />
-                                        </div>
-
-                                    )}
-                                </div> */}
 
                         <div className="graph-container-customer-realtime-energycost">
                             <div className="power_current_container">
@@ -480,64 +229,11 @@ const ViewRealTimeUsageData = () => {
                             </div>
                         </div>
                         <br></br>
-
-                        {/* <h2 className="text-white">Select Date</h2>
-                        <input type="date" onChange={handleDatePicker} />
-                        <button type="button" onClick={getDataByDate} class="py-1.5 px-3 mr-2 mb-2 text-sm font-medium text-black focus:outline-none bg-green-300 rounded-lg border hover:bg-gray-100 hover:text-blue-700 "> Get Data </button> */}
-
-                        {/* Table of Real-Time Usage Data */}
-                        {/* <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                    <table class="w-full text-sm text-center text-gray-800 dark:text-gray-400">
-                                        <thead class="text-extrabold text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-                                            <tr>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Power
-                                                </th>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Current
-                                                </th>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Voltage
-                                                </th>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Time
-                                                </th>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Energy (kWh)
-                                                </th>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Unit Cost (BDT)
-                                                </th>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Citizen ID
-                                                </th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            {usageData.map((item, index) => {
-                                                const count = index + 1;
-                                                return (
-                                                    <tr key={index} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
-                                                        <td class="px-6 py-2">{item.power}</td>
-                                                        <td class="px-6 py-2">{item.current}</td>
-                                                        <td class="px-6 py-2">{item.voltage}</td>
-                                                        <td class="px-6 py-2">{convertDate(item.time)}</td>
-                                                        <td class="px-6 py-2">{energyData[index]}</td>
-                                                        <td class="px-6 py-2">{costData[index]}</td>
-                                                        <td class="px-6 py-2">{item.c_id}</td>
-                                                    </tr>
-                                                );
-                                            })}
-                                        </tbody>
-                                    </table>
-                                </div> */}
                     </center>
                 </div>
             </body>
             <WebFooter />
         </>
-
     )
     // } else {
     //     return (
@@ -568,11 +264,6 @@ const ViewRealTimeUsageData = () => {
     // }
     // };
 
-    // return (
-    //     <div>
-    //         {showData()}
-    //     </div>
-    // )
 };
 
 export default ViewRealTimeUsageData;

@@ -57,9 +57,10 @@ html {
 - header
 - footer
 - graph container
-- iframe ekpay
+- ekpay iframe
 - glass sidenav
 - datepicker input date
+- live support iframe
 
 CONTENTS */
 
@@ -468,6 +469,37 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 }
 
 /* EKPAY IFRAME ends
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+
+/* LIVE SUPPORT IFRAME starts
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+.iframeContainer-livesupport {
+  position: relative;
+  width: 1327px;
+  height: 565px;
+  top: -3px;
+  left: -100px;
+  margin: 0 auto;
+  overflow: hidden;
+  transform: translate(8%, 2%);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  background-color: white;
+}
+
+.iframeContent-livesupport {
+  position: absolute;
+  top: -7px;
+  left: 0px;
+  width: 1330px;
+  height: 576px;
+  /* width: 92vw;
+  height: 80vh; */
+}
+
+/* LIVE SUPPORT IFRAME ends
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 
