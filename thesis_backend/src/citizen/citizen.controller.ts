@@ -71,7 +71,7 @@ export class CitizenController {
         //     return "Today's Energy-Cost is already uploaded!"
         // }
 
-        return this.citizenService.getRealTimeEnergyCostData(session.contact)
+        return this.citizenService.getRealTimeEnergyCostData_v3(session.contact)
     }
 
     @Get('usage/:date')

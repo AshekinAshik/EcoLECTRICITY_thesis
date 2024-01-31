@@ -164,6 +164,56 @@ export class CitizenService {
         return realtime_energycost_Data.length > 0 ? realtime_energycost_Data : "No Energy_Cost Data from Current Date"
     }
 
+    calculateRealTimeEnergyCost_v3(usageData: UsageLOGEntity, citizenId: number): EnergyCostDTO {
+        const energyCost = new EnergyCostDTO()
+        const timeHour = 10 / 3600
+
+        energyCost.energy = Number(((usageData.power / 1000) * timeHour).toFixed(4))
+        console.log("Energy: ", energyCost.energy)
+
+        const randomDecimal = Math.random()
+        let randomCost = 4.6 + randomDecimal * (6.7 - 4.6)
+
+        energyCost.cost = Number((energyCost.energy * randomCost).toFixed(4))
+        console.log("Cost: ", energyCost.cost)
+
+        energyCost.c_id = citizenId
+
+        return energyCost
+    }
+
+    async getRealTimeEnergyCostData_v3(contact: number) {
+        const citizen = await this.citizenRepo.findOneBy({ contact: contact })
+
+        const currentDate = new Date().toISOString().slice(0, 10) //YYYY-MM-DD in string type
+        // console.log("RealTimeEnergyCostData - Current Date: " + typeof currentDate + " " + currentDate)
+
+        //retrieving the latest Usage data inserted in Current Date
+        const latestUsageData = await this.usageRepo.findOne({
+            where: { c_id: citizen.id, time: Like(`%${currentDate}%`) },
+            order: { time: 'DESC' },
+        });
+
+        if (!latestUsageData) {
+            throw new Error('No Usage Data from Current Date');
+        } else {
+            const energyCost = this.calculateRealTimeEnergyCost_v3(latestUsageData, citizen.id);
+            // energyCosts.forEach((energyCost) => energyCost.c_id = citizen.id);
+
+            console.log("Inserting Values into Energy_Cost Table")
+            await this.energycost_Repo.save(energyCost)
+        }
+
+        const realtime_energycost_Data = await this.energycost_Repo.find({
+            where: {
+                c_id: citizen.id,
+                time: Like(`%${currentDate}%`),
+            },
+        });
+
+        return realtime_energycost_Data.length > 0 ? realtime_energycost_Data : "No Energy_Cost Data from Current Date"
+    }
+
     // calculateRealTimeEnergy_Cost_v2(usageLogs: any, citizen_id: number) {
     //     const energyCost = new EnergyCostDTO()
 
