@@ -11,13 +11,13 @@ import LiveChat from "../livechat";
 const ViewRealTimeUsageData = () => {
     const router = useRouter();
 
-    const [usageData, setUsageData] = useState([]);
+    const [realtimeUsageData, setRealTimeUsageData] = useState([]);
     const [powerData, setPowerData] = useState([])
     const [currentData, setCurrentData] = useState([])
     // const [voltageData, setVoltageData] = useState([])
     const [timeData, setTimeData] = useState([])
 
-    const [energyCostData, setEnergyCostData] = useState([])
+    const [realtimeEnergyCostData, setRealTimeEnergyCostData] = useState([])
     const [energyData, setEnergyData] = useState([])
     const [costData, setCostData] = useState([])
     const [energycostTimeData, setEnergyCostTimeData] = useState([])
@@ -40,11 +40,11 @@ const ViewRealTimeUsageData = () => {
     useEffect(() => {
         console.log("calling from useEffect")
 
-        async function getData() {
+        async function getRealTimeData() {
             const powers = []
             const currents = []
-            // const voltages = []
             const usage_times = []
+            // const voltages = []
 
             const energies = []
             const costs = []
@@ -55,14 +55,14 @@ const ViewRealTimeUsageData = () => {
                     {
                         withCredentials: true
                     })
-                setUsageData(response_realtime_usage.data)
+                setRealTimeUsageData(response_realtime_usage.data)
                 console.log("Response Realtime Usage: ", response_realtime_usage)
 
                 const response_realtime_energycost = await axios.get(process.env.NEXT_PUBLIC_API_CITIZEN_BASE_URL + 'realtime_energy_cost',
                     {
                         withCredentials: true
                     })
-                setEnergyCostData(response_realtime_energycost.data)
+                setRealTimeEnergyCostData(response_realtime_energycost.data)
                 console.log("Response Realtime Energy_Cost: ", response_realtime_energycost)
 
                 response_realtime_usage.data.map(item_usage => {
@@ -78,8 +78,8 @@ const ViewRealTimeUsageData = () => {
                 })
                 setPowerData(powers)
                 setCurrentData(currents)
-                // setVoltageData(voltages)
                 setTimeData(usage_times)
+                // setVoltageData(voltages) 
 
                 response_realtime_energycost.data.map(item_energycost => {
                     console.log("item energycost: ", item_energycost)
@@ -88,6 +88,7 @@ const ViewRealTimeUsageData = () => {
                     costs.push(item_energycost.cost)
                     en_cost_times.push(item_energycost.time)
                 })
+
                 setEnergyData(energies)
                 setCostData(costs)
                 setEnergyCostTimeData(en_cost_times)
@@ -96,10 +97,9 @@ const ViewRealTimeUsageData = () => {
             }
         };
 
-        getData()
-        // const interval = setInterval(getData, 15000)
-
-        // return () => clearInterval(interval)
+        getRealTimeData()
+        const interval = setInterval(getRealTimeData, 11000)
+        return () => clearInterval(interval)
     }, []);
 
     const OptionsChartLine = {
@@ -136,6 +136,17 @@ const ViewRealTimeUsageData = () => {
         }
     }
 
+    const SeriesChartLine_Current_vs_Power = [
+        {
+            name: 'Current (amp)',
+            data: currentData
+        },
+        {
+            name: 'Power (kW)',
+            data: powerData
+        }
+    ]
+
     const SeriesChartLine_Energy_vs_Cost = [
         {
             name: 'Energy (kWh)',
@@ -152,17 +163,6 @@ const ViewRealTimeUsageData = () => {
             name: 'Cost (BDT)',
             data: costData
         },
-    ]
-
-    const SeriesChartLine_Current_vs_Power = [
-        {
-            name: 'Current (amp)',
-            data: currentData
-        },
-        {
-            name: 'Power (kW)',
-            data: powerData
-        }
     ]
 
     const [is_Energy_vs_Cost_Hidden, setIs_Energy_vs_Cost_Hidden] = useState(true)
@@ -187,9 +187,7 @@ const ViewRealTimeUsageData = () => {
         setIs_Current_vs_Power_Hidden(false);
     };
 
-    // setInterval(getData, 20000)
-    // console.log(usageData)
-    // if (usageData != 0) {
+    // if (realtimeUsageData != 0) {
 
     return (
         <>

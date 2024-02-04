@@ -63,7 +63,7 @@ export class CitizenController {
     @Get('realtime_energy_cost')
     getRealTimeEnergyAndCostData(@Session() session) {
         // const res = await this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
-        //return res
+        //return res    
 
         // if (res) {
         //     return res

@@ -7,9 +7,13 @@ import { AdminEntity } from "./admin.entity";
 import * as bcrypt from 'bcrypt';
 import { CitizenEntity } from "src/citizen/citizen.entity";
 import { DatabaseDTO } from "src/database/database.dto";
+// import { ConfigService } from "@nestjs/config";
+// import { Twilio } from "twilio";
 
 @Injectable()
 export class AdminService {
+    // private twilioClient: Twilio
+
     constructor(
         @InjectRepository(UsageLOGEntity)
         private usageRepo: Repository<UsageLOGEntity>,
@@ -21,7 +25,14 @@ export class AdminService {
         private en_costRepo: Repository<EnergyCostEntity>,
         @InjectRepository(DailyEnergyCostEntity)
         private daily_en_costRepo: Repository<DailyEnergyCostEntity>,
-    ) { }
+
+        // private readonly configService: ConfigService,
+    ) {
+        // const accountSid = configService.get('TWILIO_ACCOUNT_SID');
+        // const authToken = configService.get('TWILIO_AUTH_TOKEN');
+
+        // this.twilioClient = new Twilio(accountSid, authToken);
+    }
 
     checkMessage(): any {
         return "Getting Message!"
@@ -57,14 +68,32 @@ export class AdminService {
     async getUsageDataByCitizenID(c_id: number, adminUsername: string) {
         // return this.usageRepo.findOneBy({id: c_id})
         // return this.usageRepo.query('SELECT user_id, power, current, voltage, time FROM usage_log WHERE user_id='+c_id)
-        const citizen = await this.citizenRepo.findOneBy({ id: c_id })
+        
+        // const citizen = await this.citizenRepo.findOneBy({ id: c_id })
 
-        return this.usageRepo.find(
-            {
-                where: { c_id: c_id },
-                relations: { citizen: true }
-            }
-        )
+        // return this.usageRepo.find(
+        //     {
+        //         where: { c_id: c_id },
+        //         relations: { citizen: true }
+        //     }
+        // )
+
+        const currentDate = new Date().toISOString().slice(0, 10) //YYYY-MM-DD in string type
+        console.log("RealTimeUsageData - Current Date: " + typeof currentDate + " " + currentDate)
+
+        const realTimeUsageData = await this.usageRepo.find({
+            where: {
+                c_id: c_id,
+                time: Like(`%${currentDate}%`), // Check for date part in time column
+            },
+        })
+        console.log("Total Number of Usage Data From Current Date in Usage_Log table: ", realTimeUsageData.length)
+
+        if (realTimeUsageData.length > 0) {
+            return realTimeUsageData
+        } else {
+            return "No Usage Data from Current Date in Usage_Log table"
+        }
     }
 
     getCitizens() {
@@ -143,4 +172,29 @@ export class AdminService {
             return false
         }
     }
+
+    // async sendOTP(phoneNumber: string) {
+    //     const serviceSid = this.configService.get(
+    //         'TWILIO_VERIFICATION_SERVICE_SID',
+    //     );
+    //     let msg = '';
+    //     await this.twilioClient.verify.v2
+    //         .services(serviceSid)
+    //         .verifications.create({ to: phoneNumber, channel: 'sms' })
+    //         .then((verification) => (msg = verification.status));
+    //     return { msg: msg };
+    // }
+    // async verifyOTP(phoneNumber: string, code: string) {
+    //     const serviceSid = this.configService.get(
+    //         'TWILIO_VERIFICATION_SERVICE_SID',
+    //     );
+    //     let msg = '';
+    //     await this.twilioClient.verify.v2
+    //         .services(serviceSid)
+    //         .verificationChecks.create({ to: phoneNumber, code: code })
+    //         .then((verification) => (msg = verification.status));
+    //     return { msg: msg };
+    // }
+
+
 }

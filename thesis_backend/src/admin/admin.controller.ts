@@ -95,6 +95,20 @@ export class AdminController {
         return res
     }
 
+    // @Post('sendOTP')
+    // async sendOTP(@Body() data: { phone: string }): Promise<{ msg: string }> {
+    //     let prefix = '+88';
+    //     let phone = prefix.concat(data.phone);
+    //     return await this.adminService.sendOTP(phone);
+    // }
+
+    // @Post('verifyOTP')
+    // async verifyOTP(@Body() data: { phone: string; otp: string }): Promise<{ msg: string }> {
+    //     let prefix = '+88';
+    //     let phone = prefix.concat(data.phone);
+    //     return await this.adminService.verifyOTP(phone, data.otp);
+    // }
+
     @Post('logout')
     // @UseGuards(SessionGuard)
     logoutManager(@Req() req) {

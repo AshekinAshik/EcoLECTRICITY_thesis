@@ -56,6 +56,7 @@ html {
 - body
 - header
 - footer
+- glass container reg
 - graph container
 - ekpay iframe
 - glass sidenav
@@ -236,7 +237,9 @@ div.center {
   max-width: 50rem;
   /* Adjust the max-width as needed */
   padding: 1rem;
-  background: rgba(152, 252, 175, 0.3);
+  /* background: rgba(152, 252, 175, 0.3); */
+  background: rgba(147, 255, 161, 0.5);
+
   /* Adjust the background opacity as needed */
   border: 1px solid rgba(209, 203, 203, 0.1);
   border-radius: 1rem;
