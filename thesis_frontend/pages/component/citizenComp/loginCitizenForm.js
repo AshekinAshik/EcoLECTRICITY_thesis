@@ -38,7 +38,8 @@ const CitizenLoginForm = () => {
 
                 console.log(response);
                 if (response.data == "Citizen Login Successful!") {
-                    router.push('realtime_usage_dashboard')
+                    // router.push('realtime_usage_dashboard')
+                    router.push('otp_verification')
                 } else {
                     setError("Invalid Citizen!")
                 }

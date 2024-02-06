@@ -114,4 +114,11 @@ export class CitizenController {
 
         return this.citizenService.getDailyEnergyCostData(session.contact)
     }
+
+    @Get('generateOTP')
+    getGeneratedOTP(@Session() session) {
+        return this.citizenService.getGeneratedOTP(session.contact);
+
+        // return "E-mail Send Successful!";
+    }
 }

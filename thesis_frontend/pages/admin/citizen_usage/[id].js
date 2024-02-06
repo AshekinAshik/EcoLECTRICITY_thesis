@@ -2,11 +2,11 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import WebLayout_V1 from "../layout/layout_v1";
-import WebFooter from "../layout/footer";
-import WebHeader_V1 from "../layout/header_v1";
+import WebLayout_V1 from "../../layout/layout_v1";
+import WebFooter from "../../layout/footer";
+import WebHeader_V1 from "../../layout/header_v1";
 import dynamic from "next/dynamic";
-import MenuDrawer_Admin from "../layout/admin_menudrawer";
+import MenuDrawer_Admin from "../../layout/admin_menudrawer";
 // import SessionCheck from "../utils/sessionCheck";
 
 const CitizenUsages = () => {
@@ -44,6 +44,7 @@ const CitizenUsages = () => {
   const [isDataFetching, setIsDataFetching] = useState(false)
 
   const c_id = router.query.id;
+  console.log(c_id)
 
   const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
@@ -162,10 +163,11 @@ const CitizenUsages = () => {
   const getDailyUsageOfCustomer = async (e) => {
     e.preventDefault()
 
+    setActiveDiv('daily_usage');
+
     setFetchRealTimeData(false);
     setIsDataFetching(false);
 
-    setActiveDiv('daily_usage');
 
     const totalEnergies = []
     const totalCosts = []
@@ -234,13 +236,6 @@ const CitizenUsages = () => {
     if (!isDataFetching) {
       setFetchRealTimeData(true)
     }
-  }
-
-  const handleCancelRealTimeData = () => {
-    setFetchRealTimeData(false);
-    setIsDataFetching(false);
-
-    getDailyUsageOfCustomer
   }
 
   const OptionsChartLine = {
@@ -313,7 +308,7 @@ const CitizenUsages = () => {
             <h4 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-2xl lg:text-4xl dark:text-white"> All Available <mark class="px-2 text-white bg-green-400 rounded dark:bg-blue-500">Usage</mark> Data </h4>
             <br></br>
             <button type="button" onClick={handleFetchRealTimeData} disabled={isDataFetching} class="text-gray-900 bg-white border border-green-300 focus:outline-none hover:bg-green-200 focus:ring-4 focus:ring-green-400 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Real-Time Usage</button>
-            <button type="button" onClick={getDailyUsageOfCustomer} disabled={!isDataFetching} class="text-gray-900 bg-white border border-green-300 focus:outline-none hover:bg-green-200 focus:ring-4 focus:ring-green-400 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Daily Usage</button>
+            <button type="button" onClick={getDailyUsageOfCustomer} class="text-gray-900 bg-white border border-green-300 focus:outline-none hover:bg-green-200 focus:ring-4 focus:ring-green-400 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Daily Usage</button>
             <button type="button" onClick={getUsageHistory} class="text-gray-900 bg-white border border-green-300 focus:outline-none hover:bg-green-200 focus:ring-4 focus:ring-green-400 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Usage History</button>
             <br></br> <br></br>
 

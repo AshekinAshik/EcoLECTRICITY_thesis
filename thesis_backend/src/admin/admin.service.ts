@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { AdminLoginDTO, AdminRegDTO } from "./admin.dto";
+import { AdminLoginDTO, AdminMessageDTO, AdminRegDTO } from "./admin.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DailyEnergyCostEntity, EnergyCostEntity, UsageLOGEntity } from "src/database/database.entity";
 import { Like, Repository } from "typeorm";
@@ -7,6 +7,7 @@ import { AdminEntity } from "./admin.entity";
 import * as bcrypt from 'bcrypt';
 import { CitizenEntity } from "src/citizen/citizen.entity";
 import { DatabaseDTO } from "src/database/database.dto";
+import { MailerService } from "@nestjs-modules/mailer/dist";
 // import { ConfigService } from "@nestjs/config";
 // import { Twilio } from "twilio";
 
@@ -25,6 +26,8 @@ export class AdminService {
         private en_costRepo: Repository<EnergyCostEntity>,
         @InjectRepository(DailyEnergyCostEntity)
         private daily_en_costRepo: Repository<DailyEnergyCostEntity>,
+
+        private readonly mailerService: MailerService
 
         // private readonly configService: ConfigService,
     ) {
@@ -68,7 +71,7 @@ export class AdminService {
     async getUsageDataByCitizenID(c_id: number, adminUsername: string) {
         // return this.usageRepo.findOneBy({id: c_id})
         // return this.usageRepo.query('SELECT user_id, power, current, voltage, time FROM usage_log WHERE user_id='+c_id)
-        
+
         // const citizen = await this.citizenRepo.findOneBy({ id: c_id })
 
         // return this.usageRepo.find(
@@ -97,13 +100,21 @@ export class AdminService {
     }
 
     getCitizens() {
-        console.log("Sending ID and Name of All Citizen to Admin")
+        console.log("Sending All Citizen ID and Name to Admin")
 
         return this.citizenRepo.query('SELECT c_id, name FROM citizen')
     }
 
     getCitizenByID(c_id: number, adminUsername: string) {
         return this.citizenRepo.query('SELECT * FROM citizen WHERE c_id=' + c_id)
+    }
+
+    getCitizenProfileByID(c_id: number, adminUsername: string) {
+        return this.citizenRepo.findOneBy({ id: c_id })
+    }
+
+    deleteCitizenByID(c_id: number, adminUsername: string) {
+        return this.citizenRepo.delete(c_id)
     }
 
     getCostByCitizenID(c_id: number, adminUsername: string) {
@@ -171,6 +182,18 @@ export class AdminService {
             console.log("not inserting into energycost")
             return false
         }
+    }
+
+    async sendMailToCitizen(messageInfo: AdminMessageDTO, adminUsername: string) {
+        const admin = await this.adminRepo.findOneBy({ username: adminUsername });
+
+        await this.mailerService.sendMail(
+            {
+                to: messageInfo.receiver,
+                subject: "EcoLECTRICITY: " + messageInfo.subject,
+                text: messageInfo.message,
+            }
+        );
     }
 
     // async sendOTP(phoneNumber: string) {

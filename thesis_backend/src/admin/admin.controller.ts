@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, UsePipes, ValidationPipe, Session, NotFoundException, UnauthorizedException, Req, ParseIntPipe, Param } from "@nestjs/common";
+import { Controller, Get, Post, Body, UsePipes, ValidationPipe, Session, NotFoundException, UnauthorizedException, Req, ParseIntPipe, Param, Delete } from "@nestjs/common";
 import { AdminService } from "./admin.service";
-import { AdminLoginDTO, AdminRegDTO } from "./admin.dto";
+import { AdminLoginDTO, AdminMessageDTO, AdminRegDTO } from "./admin.dto";
 import { DatabaseDTO } from "src/database/database.dto";
 
 @Controller('admin')
@@ -81,6 +81,18 @@ export class AdminController {
         return res
     }
 
+    @Get('citizen_profile/:c_id')
+    async getCitizenProfileByID(@Param("c_id", ParseIntPipe) c_id: number, @Session() session) {
+        const res = await this.adminService.getCitizenProfileByID(c_id, session.username)
+
+        return res
+    }
+
+    @Delete('delete/citizen/:c_id')
+    async deleteCitizenByID(@Param("c_id", ParseIntPipe) c_id: number, @Session() session) {
+        const res = await this.adminService.deleteCitizenByID(c_id, session.username)
+    }
+
     @Get('cost/:c_id')
     async getCostByCitizenID(@Param("c_id", ParseIntPipe) c_id: number, @Session() session) {
         const res = await this.adminService.getCostByCitizenID(c_id, session.username)
@@ -93,6 +105,14 @@ export class AdminController {
         const res = await this.adminService.getCalculatedAndSavedEnergy_Cost(c_id, session.username)
 
         return res
+    }
+
+    @Post('sendmail')
+    sendMailToCitizen(@Body() messageInfo: AdminMessageDTO, @Session() session) {
+        console.log(messageInfo);
+        this.adminService.sendMailToCitizen(messageInfo, session.username);
+
+        return "E-mail Send Successful!";
     }
 
     // @Post('sendOTP')

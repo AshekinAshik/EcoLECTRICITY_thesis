@@ -6,6 +6,7 @@ import { Like, Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { CitizenEntity } from "./citizen.entity";
 import { EnergyCostDTO, TotalDailyEnergyCostDTO } from "src/database/database.dto";
+import { MailerService } from "@nestjs-modules/mailer/dist";
 
 @Injectable()
 export class CitizenService {
@@ -18,6 +19,8 @@ export class CitizenService {
         private energycost_Repo: Repository<EnergyCostEntity>,
         @InjectRepository(DailyEnergyCostEntity)
         private daily_energycost_Repo: Repository<DailyEnergyCostEntity>,
+
+        private readonly mailerService: MailerService
     ) { }
 
     //Citizen Registration
@@ -172,14 +175,14 @@ export class CitizenService {
             where: { c_id: citizen.id, time: Like(`%${currentDate}%`) },
             order: { time: 'DESC' },
         });
-        // console.log("Latest Usage log_id: " + latestUsageData.id)
+        console.log("Latest Usage log_id: " + latestUsageData.id)
 
         if (!latestUsageData) {
             // throw new Error('No Usage Data from Current Date');
             console.log("No Usage Data from Current Date")
         } else {
             const energyCost = this.calculateRealTimeEnergyCost_v3(latestUsageData, citizen.id);
-            console.log("Calculing Energy_Cost of Usage log_id: " + latestUsageData.id)
+            console.log("Calculating Energy_Cost of Usage log_id: " + latestUsageData.id)
 
             // energyCosts.forEach((energyCost) => energyCost.c_id = citizen.id);
 
@@ -298,5 +301,29 @@ export class CitizenService {
         }
 
         return this.daily_energycost_Repo.query(`SELECT * FROM daily_energy_cost WHERE c_id=${citizen.id} ORDER BY time DESC`)
+    }
+
+    async sendOTPToCitizen(contact: number, otp: string) {
+        const citizen = await this.citizenRepo.findOneBy({ contact: contact });
+
+        await this.mailerService.sendMail(
+            {
+                to: citizen.email,
+                subject: "EcoLECTRICITY: OTP for Login",
+                text: "Your login 6-digit OTP is: " + otp,
+            }
+        );
+    }
+
+    async getGeneratedOTP(contact: number) {
+        let otp = "";
+        otp += Math.floor(Math.random() * 9) + 1; // Generate a random digit from 1 to 9
+        for (let i = 1; i < 6; i++) {
+            otp += Math.floor(Math.random() * 10); // Generate a random digit from 0 to 9
+        }
+
+        const response_sendOTP = this.sendOTPToCitizen(contact, otp)
+
+        return otp
     }
 }

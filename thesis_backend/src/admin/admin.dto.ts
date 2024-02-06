@@ -36,3 +36,16 @@ export class AdminLoginDTO {
     @IsNotEmpty({message: "Password Must be Filled!"})
     password:string;
 }
+
+export class AdminMessageDTO {
+    @IsEmail({}, {message: "Invalid E-mail!"})
+    @IsNotEmpty({message: "Receiver Must be Filled!"})
+    receiver:string;
+
+    @IsString({message: "Invalid Subject!"})
+    @IsNotEmpty({message: "Subject Must be Filled!"})
+    subject:string;
+
+    @IsString({message: "Invalid Message!"})
+    message:string;
+}
