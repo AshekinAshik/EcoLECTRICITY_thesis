@@ -98,8 +98,8 @@ const ViewRealTimeUsageData = () => {
         };
 
         getRealTimeData()
-        // const interval = setInterval(getRealTimeData, 11000)
-        // return () => clearInterval(interval)
+        const interval = setInterval(getRealTimeData, 11000)
+        return () => clearInterval(interval)
     }, []);
 
     const OptionsChartLine = {

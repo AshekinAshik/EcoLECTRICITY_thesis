@@ -64,13 +64,36 @@ export class AdminController {
         return this.adminService.getUsageData();
     }
 
-    @Get('usages/:c_id')
-    async getUsageDataByCitizenID(@Param("c_id", ParseIntPipe) c_id: number, @Session() session) {
-        const res = this.adminService.getUsageDataByCitizenID(c_id, session.username)
+    @Get('realtime_usages/:c_id')
+    async getRealTimeUsageDataByCitizenID(@Param("c_id", ParseIntPipe) c_id: number, @Session() session) {
+        const res = this.adminService.getRealTimeUsageDataByCitizenID(c_id, session.username)
         if (res) {
             return res
         } else {
             return new NotFoundException({ message: "No Usage Data was Found!" })
+        }
+    }
+
+    @Get('daily_energy_cost/:c_id')
+    getDailyEnergyAndCostDataByCitizenID(@Param("c_id", ParseIntPipe) c_id: number, @Session() session): any {
+        // const res = await this.citizenService.getDailyCalculatedAndSaveEnergy_Cost(session.contact)
+
+        // if (res) {
+        //     return res
+        // } else {
+        //     return "Today's Energy-Cost is already uploaded!"
+        // }
+
+        return this.adminService.getDailyEnergyAndCostDataByCitizenID(c_id, session.contact)
+    }
+
+    @Get('realtime_energy_cost/:c_id')
+    async getRealTimeEnergyCostByCitizenID(@Param("c_id", ParseIntPipe) c_id: number, @Session() session) {
+        const res = this.adminService.getRealTimeEnergyCostByCitizenID(c_id, session.username)
+        if (res) {
+            return res
+        } else {
+            return new NotFoundException({ message: "No Energy_Cost Data was Found!" })
         }
     }
 

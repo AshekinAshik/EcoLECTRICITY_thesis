@@ -79,14 +79,14 @@ const CitizenUsages = () => {
         const en_cost_times = []
 
         try {
-          const response_realtime_usage = await axios.get(process.env.NEXT_PUBLIC_API_ADMIN_BASE_URL + 'usages/' + c_id,
+          const response_realtime_usage = await axios.get(process.env.NEXT_PUBLIC_API_ADMIN_BASE_URL + 'realtime_usages/' + c_id,
             {
               withCredentials: true
             })
           setRealTimeUsageData(response_realtime_usage.data);
           console.log("Response Realtime Usage: ", response_realtime_usage);
 
-          const response_realtime_energycost = await axios.get(process.env.NEXT_PUBLIC_API_CITIZEN_BASE_URL + 'realtime_energy_cost',
+          const response_realtime_energycost = await axios.get(process.env.NEXT_PUBLIC_API_ADMIN_BASE_URL + 'realtime_energy_cost/' + c_id,
             {
               withCredentials: true
             })
@@ -124,8 +124,8 @@ const CitizenUsages = () => {
       }
 
       getRealTimeData();
-      // const interval = setInterval(getRealTimeData, 15000)
-      // return () => clearInterval(interval)
+      const interval = setInterval(getRealTimeData, 11000)
+      return () => clearInterval(interval)
     }
   }, [fetchRealTimeData, isDataFetching]);
 
@@ -174,8 +174,7 @@ const CitizenUsages = () => {
     const daily_en_cost_times = []
 
     try {
-      console.log("here")
-      const response_daily_energy_cost = await axios.get(process.env.NEXT_PUBLIC_API_CITIZEN_BASE_URL + 'daily_energy_cost',
+      const response_daily_energy_cost = await axios.get(process.env.NEXT_PUBLIC_API_ADMIN_BASE_URL + 'daily_energy_cost/' + c_id,
         {
           withCredentials: true
         })

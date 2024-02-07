@@ -49,3 +49,15 @@ export class AdminMessageDTO {
     @IsString({message: "Invalid Message!"})
     message:string;
 }
+
+export class EnergyCostDTO {
+    energy: number
+    cost: number
+    c_id: number
+}
+
+export class TotalDailyEnergyCostDTO {
+    energy: number
+    cost: number
+    c_id: number
+}

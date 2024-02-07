@@ -55,7 +55,7 @@ export class CitizenService {
         const citizen = await this.citizenRepo.findOneBy({ contact: contact })
 
         const currentDate = new Date().toISOString().slice(0, 10) //YYYY-MM-DD in string type
-        // console.log("RealTimeUsageData - Current Date: " + typeof currentDate + " " + currentDate)
+        // console.log("RealTimeUsageData from Citizen - Current Date: " + typeof currentDate + " " + currentDate)
 
         const realTimeUsageData = await this.usageRepo.find({
             where: {
@@ -93,60 +93,60 @@ export class CitizenService {
     //     return calculatedCost
     // }
 
-    calculateRealTimeEnergy_Cost(power_W: number, citizen_id: number) {
-        const energyCost = new EnergyCostDTO()
-        const power_kW = power_W / 1000
-        const time_hour = 10 / 3600 //for every 10 sec
+    // calculateRealTimeEnergy_Cost(power_W: number, citizen_id: number) {
+    //     const energyCost = new EnergyCostDTO()
+    //     const power_kW = power_W / 1000
+    //     const time_hour = 10 / 3600 //for every 10 sec
 
-        let calculatedEnergy = power_kW * time_hour //energy in kWh
-        energyCost.energy = Number(calculatedEnergy.toFixed(4))
-        console.log("Energy: ", energyCost.energy)
+    //     let calculatedEnergy = power_kW * time_hour //energy in kWh
+    //     energyCost.energy = Number(calculatedEnergy.toFixed(4))
+    //     console.log("Energy: ", energyCost.energy)
 
-        const randomDecimal = Math.random()
-        let randomCost = 4.6 + randomDecimal * (6.7 - 4.6)
+    //     const randomDecimal = Math.random()
+    //     let randomCost = 4.6 + randomDecimal * (6.7 - 4.6)
 
-        const calculatedCost = energyCost.energy * randomCost
-        energyCost.cost = Number(calculatedCost.toFixed(4))
-        console.log("Cost: ", energyCost.cost)
+    //     const calculatedCost = energyCost.energy * randomCost
+    //     energyCost.cost = Number(calculatedCost.toFixed(4))
+    //     console.log("Cost: ", energyCost.cost)
 
-        energyCost.c_id = citizen_id
+    //     energyCost.c_id = citizen_id
 
-        return energyCost
-    }
+    //     return energyCost
+    // }
 
-    async getRealTimeEnergyCostData(contact: number) {
-        const citizen = await this.citizenRepo.findOneBy({ contact: contact })
+    // async getRealTimeEnergyCostData(contact: number) {
+    //     const citizen = await this.citizenRepo.findOneBy({ contact: contact })
 
-        const currentDate = new Date().toISOString().slice(0, 10) //YYYY-MM-DD in string type
-        // console.log("RealTimeEnergyCostData - Current Date: " + typeof currentDate + " " + currentDate)
+    //     const currentDate = new Date().toISOString().slice(0, 10) //YYYY-MM-DD in string type
+    //     // console.log("RealTimeEnergyCostData - Current Date: " + typeof currentDate + " " + currentDate)
 
-        const usageLogs = await this.usageRepo.find({
-            where: {
-                c_id: citizen.id,
-                time: Like(`%${currentDate}%`),
-            },
-        })
-        console.log("Total Number of Usage Data from Current Date in Usage_Logs table: ", usageLogs.length)
+    //     const usageLogs = await this.usageRepo.find({
+    //         where: {
+    //             c_id: citizen.id,
+    //             time: Like(`%${currentDate}%`),
+    //         },
+    //     })
+    //     console.log("Total Number of Usage Data from Current Date in Usage_Logs table: ", usageLogs.length)
 
-        if (usageLogs.length > 0) {
-            const energyCosts = usageLogs.map((usageLog) => this.calculateRealTimeEnergy_Cost(usageLog.power, citizen.id));
-            // energyCosts.forEach((energyCost) => energyCost.c_id = citizen.id);
+    //     if (usageLogs.length > 0) {
+    //         const energyCosts = usageLogs.map((usageLog) => this.calculateRealTimeEnergy_Cost(usageLog.power, citizen.id));
+    //         // energyCosts.forEach((energyCost) => energyCost.c_id = citizen.id);
 
-            console.log("Inserting Values into Energy_Cost Table")
-            await this.energycost_Repo.save(energyCosts)
-        }
+    //         console.log("Inserting Values into Energy_Cost Table")
+    //         await this.energycost_Repo.save(energyCosts)
+    //     }
 
-        const realtime_energycost_Data = await this.energycost_Repo.find({
-            where: {
-                c_id: citizen.id,
-                time: Like(`%${currentDate}%`),
-            },
-        });
+    //     const realtime_energycost_Data = await this.energycost_Repo.find({
+    //         where: {
+    //             c_id: citizen.id,
+    //             time: Like(`%${currentDate}%`),
+    //         },
+    //     });
 
-        return realtime_energycost_Data.length > 0 ? realtime_energycost_Data : "No Energy_Cost Data from Current Date"
-    }
+    //     return realtime_energycost_Data.length > 0 ? realtime_energycost_Data : "No Energy_Cost Data from Current Date"
+    // }
 
-    calculateRealTimeEnergyCost_v3(latestUsageData: UsageLOGEntity, citizenId: number): EnergyCostDTO {
+    calculateRealTimeEnergyCost(latestUsageData: UsageLOGEntity, citizen_id: number): EnergyCostDTO {
         const energyCost = new EnergyCostDTO()
         const timeHour = 10 / 3600
 
@@ -159,16 +159,16 @@ export class CitizenService {
         energyCost.cost = Number((energyCost.energy * randomCost).toFixed(4))
         console.log("Cost: ", energyCost.cost)
 
-        energyCost.c_id = citizenId
+        energyCost.c_id = citizen_id
 
         return energyCost
     }
 
-    async getRealTimeEnergyCostData_v3(contact: number) {
+    async getRealTimeEnergyCostData(contact: number) {
         const citizen = await this.citizenRepo.findOneBy({ contact: contact })
 
         const currentDate = new Date().toISOString().slice(0, 10) //YYYY-MM-DD in string type
-        // console.log("RealTimeEnergyCostData - Current Date: " + typeof currentDate + " " + currentDate)
+        console.log("RealTimeEnergyCostData - Current Date: " + typeof currentDate + " " + currentDate)
 
         //retrieving the latest Usage data inserted in Current Date
         const latestUsageData = await this.usageRepo.findOne({
@@ -181,7 +181,7 @@ export class CitizenService {
             // throw new Error('No Usage Data from Current Date');
             console.log("No Usage Data from Current Date")
         } else {
-            const energyCost = this.calculateRealTimeEnergyCost_v3(latestUsageData, citizen.id);
+            const energyCost = this.calculateRealTimeEnergyCost(latestUsageData, citizen.id);
             console.log("Calculating Energy_Cost of Usage log_id: " + latestUsageData.id)
 
             // energyCosts.forEach((energyCost) => energyCost.c_id = citizen.id);
@@ -252,7 +252,7 @@ export class CitizenService {
 
         const now = new Date()
         const currentDate = now.toISOString().slice(0, 10) //YYYY-MM-DD in string type
-        console.log("DailyEnergyCost - Current Date: " + typeof currentDate + " " + currentDate)
+        console.log("DailyEnergyCost from Citizen - Current Date: " + typeof currentDate + " " + currentDate)
 
         const hasEntryForCurrentDate = await this.daily_energycost_Repo.exist({
             where: {

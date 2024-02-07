@@ -20,6 +20,7 @@ const ViewDailyUsageData = () => {
     const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
     useEffect(() => {
+        console.log("calling from useEffect Citizen Daily Usage")
         getData();
     }, []);
 
