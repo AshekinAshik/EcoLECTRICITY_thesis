@@ -7,55 +7,6 @@
   padding-right: 0px;
 }
 
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */
-
-html {
-  /* height: 100%; */
-}
-
-/* footer {
-  position: absolute;
-  right: 0;
-  left: 0;
-  bottom: 0;
-} */
-
-/* body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  position: relative;
-  margin: 0;
-  min-height: 100%;
-} */
-
 /* CONTENTS 
 
 - body
@@ -120,9 +71,6 @@ body {
 /* Accessibility */
 a {
   text-decoration: none;
-  /* Remove underlines for links */
-  /* color: #007bff; */
-  /* Set link color with sufficient contrast */
 }
 
 a:hover,
@@ -172,16 +120,6 @@ div.center {
 
   /* background-color: #88DD5D; */
 }
-
-/* .full-screen {
-  margin: 0;
-  padding: 0;
-  background-image: url('/bg_2.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-} */
 
 .glass-header {
   /* margin-top: 1rem; */
@@ -274,13 +212,11 @@ div.center {
 
 #adminicon::before {
   content: '';
-  /* display: inline-block; */
   width: 20px;
   height: 20px;
   background-image: url('/adminicon.png');
   background-size: contain;
   float: left;
-  /* margin-right: 10px; */
 
   display: inline-block;
   padding-right: 3px;
@@ -334,12 +270,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 .graph-container-customer-realtime-energycost {
   position: relative;
-
-  /* width: 1438px;
-  height: 532px;
-  top: -11px;
-  left: 8px; */
-
   width: 70%;
   height: 1500px;
   overflow: hidden;
@@ -347,18 +277,10 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
   border-radius: 10px;
   padding: 20px;
   box-sizing: border-box;
-
-  /* background-color: crimson; */
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
 .graph-container-customer-daily-energycost {
   position: relative;
-
-  /* width: 1438px;
-  height: 532px;
-  top: -11px;
-  left: 8px; */
 
   width: 70%;
   height: 450px;
@@ -415,10 +337,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
   width: 100%;
   height: 100%;
   top: 30px;
-
-  /* left: 18px;
-  width: 1000px;
-  height: 1500px; */
 }
 
 .energy_cost_container .graph-content {
@@ -440,11 +358,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
   width: 100%;
   height: 100%;
   top: 0px;
-
-  /* background-color: black;
-  left: 18px;
-  width: 1000px;
-  height: 1500px; */
 }
 
 /* GRAPH CITIZEN ends
@@ -548,7 +461,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* DATEPICKER INPUT DATE ends
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
-
 .glass-container-profile {
   width: 100%;
   max-width: 50rem;
@@ -563,7 +475,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
   /* Adjust the blur value as needed */
 }
 
-
 .citizen-profile-container {
   position: relative;
   width: 90%;
@@ -576,9 +487,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: azure;
 }
-
-
-
 
 .profile_container {
   position: relative;
@@ -616,39 +524,3 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 textarea {
   resize: none;
 }
-
-
-/* container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
-
-/* form {
-  height: 400px;
-  width: 400px;
-  background-color: rgba(197, 242, 206, 0.444);
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 50%;
-  left: 50%;
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(0, 255, 38, 0.287);
-  box-shadow: 0 0 40px rgba(90, 234, 102, 0.458);
-  padding: 50px 35px;
-}
-
-form h3 {
-  font-size: 32px;
-  font-weight: 500;
-  line-height: 42px;
-  text-align: center;
-}
-
-label {
-  display: block;
-  margin-top: 30px;
-  font-size: 16px;
-  font-weight: 500;
-} */

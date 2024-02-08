@@ -8,11 +8,9 @@ const DynamicLoginAdminForm = dynamic(() => import('../component/adminComp/login
 const AdminLoginPage = () => {
     return (
         <>
-            {/* <WebLayout_V1> */}
-                <div>
-                    <DynamicLoginAdminForm />
-                </div>
-            {/* </WebLayout_V1> */}
+            <div>
+                <DynamicLoginAdminForm />
+            </div>
 
             {/* <WebLayout title="Admin - LOGIN">
                 <div>

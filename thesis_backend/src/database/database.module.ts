@@ -8,4 +8,4 @@ import { DailyEnergyCostEntity, EnergyCostEntity, UsageLOGEntity } from "./datab
     providers: [],
 })
 
-export class DatabaseModule {};
+export class DatabaseModule { };

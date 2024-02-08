@@ -2,7 +2,6 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import ReactApexChart from "react-apexcharts";
 import { useEffect, useState } from "react";
-import WebLayout_V1 from "../../layout/layout_v1";
 import WebHeader_V1 from "../../layout/header_v1";
 import WebFooter from "../../layout/footer";
 import dynamic from "next/dynamic";

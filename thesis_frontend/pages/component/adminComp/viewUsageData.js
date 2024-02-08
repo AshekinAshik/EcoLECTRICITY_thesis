@@ -6,9 +6,6 @@ import ReactApexChart from "react-apexcharts";
 // import SessionCheck from "../utils/sessionCheck";
 
 const ViewUsageData = () => {
-    // const [category, setCategory] = useState([])
-    // const [data, setData] = useState([])
-
     const [usages, setUsages] = useState([]);
     const [powerData, setPowerData] = useState([])
     const [currentData, setCurrentData] = useState([])
@@ -88,50 +85,26 @@ const ViewUsageData = () => {
         }
     ]
 
-    const showData = () => {
-        // setInterval(getData, 5000)
-        console.log(usages)
-        if (usages) {
-            return (
-                <>
-                    {/* <SessionCheck /> */}
-                    <body className="bg-light">
-                        <WebHeader_V1 />
-                        <div className="body-topnbottom">
-                            <center>
-
-                                <h4 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-2xl lg:text-4xl dark:text-white"> All Available <mark class="px-2 text-white bg-green-400 rounded dark:bg-blue-500">Usage</mark> Data </h4>
-                                <br></br>
-
-                                {/* <ReactApexChart options={state.options} series={state.series} type="area" height={350} width={1000} /> */}
-
-                                <ReactApexChart options={OptionsChartLine} series={SeriesChartLine} height={500} width={1400} />
-
-                                <br></br>
-
-
-                            </center>
-                        </div>
-                        <WebFooter />
-                    </body>
-                </>
-            )
-        } else {
-            return (
-                <>
-                    <WebHeader_V1 />
-                    <p class="text-center text-red-700"> No Usage Data to Show </p>
-                    <WebFooter_V1 />
-                </>
-            )
-        }
-    };
-
     return (
         <>
-            <div>
-                {showData()}
-            </div>
+            {/* <SessionCheck /> */}
+            <body className="bg-light">
+                <WebHeader_V1 />
+                <div className="body-topnbottom">
+                    <center>
+
+                        <h4 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-2xl lg:text-4xl dark:text-white"> All Available <mark class="px-2 text-white bg-green-400 rounded dark:bg-blue-500">Usage</mark> Data </h4>
+                        <br></br>
+
+                        <ReactApexChart options={OptionsChartLine} series={SeriesChartLine} height={500} width={1400} />
+
+                        <br></br>
+
+
+                    </center>
+                </div>
+                <WebFooter />
+            </body>
         </>
     )
 };

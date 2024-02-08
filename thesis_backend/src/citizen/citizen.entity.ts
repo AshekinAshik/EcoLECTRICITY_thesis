@@ -3,25 +3,25 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('citizen')
 export class CitizenEntity {
-    @PrimaryGeneratedColumn({name:'c_id'})
-    id:number
-    @Column({length:150})
-    name:string;
+    @PrimaryGeneratedColumn({ name: 'c_id' })
+    id: number
+    @Column({ length: 150 })
+    name: string;
     @Column()
-    email:string;
+    email: string;
     @Column()
-    contact:number;
+    contact: number;
     @Column()
-    location:string;
+    location: string;
     @Column()
-    password:string;
+    password: string;
 
-    @OneToMany(() => UsageLOGEntity, usagelog => usagelog.citizen, {cascade: ["remove"]})
-        usagelogs: UsageLOGEntity[]
+    @OneToMany(() => UsageLOGEntity, usagelog => usagelog.citizen, { cascade: ["remove"] })
+    usagelogs: UsageLOGEntity[]
 
-    @OneToMany(() => EnergyCostEntity, en_cost => en_cost.citizen, {cascade: ["remove"]})
-        en_costs: EnergyCostEntity[]
+    @OneToMany(() => EnergyCostEntity, en_cost => en_cost.citizen, { cascade: ["remove"] })
+    en_costs: EnergyCostEntity[]
 
-    @OneToMany(() => DailyEnergyCostEntity, daily_en_cost => daily_en_cost.citizen, {cascade: ["remove"]})
-        daily_en_costs: EnergyCostEntity[]
+    @OneToMany(() => DailyEnergyCostEntity, daily_en_cost => daily_en_cost.citizen, { cascade: ["remove"] })
+    daily_en_costs: EnergyCostEntity[]
 }

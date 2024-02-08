@@ -244,10 +244,6 @@ const ViewOtherUsageData = () => {
                     <center>
                         <h4 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-2xl lg:text-4xl dark:text-white"> Real Time <mark class="px-2 text-white bg-green-400 rounded dark:bg-blue-500">Usage</mark> Data </h4>
                         <br></br>
-                        {/* <button type="button" onClick={show_Energy_vs_Cost} class="text-gray-900 bg-white border border-green-300 focus:outline-none hover:bg-green-200 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">kWh - Unit Cost</button>
-                                <button type="button" onClick={show_Cost} class="text-gray-900 bg-white border border-green-300 focus:outline-none hover:bg-green-200 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Unit Cost</button>
-                                <button type="button" onClick={show_Current_vs_Power} class="text-gray-900 bg-white border border-green-300 focus:outline-none hover:bg-green-200 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Current - Power</button>
-                                <br></br> <br></br> */}
 
                         <div className="graph-container-customer-realtime-energycost">
                             <div className="power_current_container">
@@ -272,58 +268,6 @@ const ViewOtherUsageData = () => {
                             </div>
                         </div>
                         <br></br>
-
-                        {/* <h2 className="text-white">Select Date</h2>
-                        <input type="date" onChange={handleDatePicker} />
-                        <button type="button" onClick={getDataByDate} class="py-1.5 px-3 mr-2 mb-2 text-sm font-medium text-black focus:outline-none bg-green-300 rounded-lg border hover:bg-gray-100 hover:text-blue-700 "> Get Data </button> */}
-
-                        {/* Table of Real-Time Usage Data */}
-                        {/* <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                    <table class="w-full text-sm text-center text-gray-800 dark:text-gray-400">
-                                        <thead class="text-extrabold text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-                                            <tr>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Power
-                                                </th>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Current
-                                                </th>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Voltage
-                                                </th>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Time
-                                                </th>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Energy (kWh)
-                                                </th>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Unit Cost (BDT)
-                                                </th>
-                                                <th scope="col" class="px-6 py-5">
-                                                    Citizen ID
-                                                </th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            {usageData.map((item, index) => {
-                                                const count = index + 1;
-                                                return (
-                                                    <tr key={index} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
-                                                        <td class="px-6 py-2">{item.power}</td>
-                                                        <td class="px-6 py-2">{item.current}</td>
-                                                        <td class="px-6 py-2">{item.voltage}</td>
-                                                        <td class="px-6 py-2">{convertDate(item.time)}</td>
-                                                        <td class="px-6 py-2">{energyData[index]}</td>
-                                                        <td class="px-6 py-2">{costData[index]}</td>
-                                                        <td class="px-6 py-2">{item.c_id}</td>
-                                                    </tr>
-                                                );
-                                            })}
-                                        </tbody>
-                                    </table>
-                                </div> */}
                     </center>
                 </div>
             </body>

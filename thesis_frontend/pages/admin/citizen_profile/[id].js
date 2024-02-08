@@ -10,7 +10,7 @@ const CitizeProfile = () => {
     const router = useRouter()
 
     const c_id = router.query.id;
-    console.log(c_id)
+    console.log("Citizen ID: " + c_id)
 
     const [citizenData, setCitizenData] = useState(null)
     const [activeDiv, setActiveDiv] = useState('')

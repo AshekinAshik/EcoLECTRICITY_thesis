@@ -7,11 +7,9 @@ const DynamicRegCitizenForm = dynamic(() => import('../component/citizenComp/reg
 const CitizenRegistrationPage = () => {
     return (
         <>
-            <WebLayout title="Citizen - REGISTRATION">
-                <div>
-                    <DynamicRegCitizenForm />
-                </div>
-            </WebLayout>
+            <div>
+                <DynamicRegCitizenForm />
+            </div>
         </>
     )
 };

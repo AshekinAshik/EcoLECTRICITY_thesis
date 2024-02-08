@@ -50,7 +50,7 @@ export class CitizenService {
         return this.usageRepo.query('SELECT * FROM usage_log WHERE c_id=' + citizen.id)
     }
 
-    //Citizen Real-Time Usage Data
+    //Real-Time Usage of Citizen
     async getRealTimeUsageData(contact: number) {
         const citizen = await this.citizenRepo.findOneBy({ contact: contact })
 
@@ -72,80 +72,6 @@ export class CitizenService {
         }
     }
 
-    //Citizen Real-Time Energy-Cost Data
-    // calculateEnergy(power: number) {
-    //     const power_kW = power / 1000
-    //     const time_hour = 10 / 3600
-
-    //     let calculatedEnergy = power_kW * time_hour //energy in kWh
-    //     calculatedEnergy = Number(calculatedEnergy.toFixed(4))
-
-    //     return calculatedEnergy
-    // }
-
-    // calculateCost(calculatedEnergy: number) {
-    //     const randomDecimal = Math.random()
-    //     let randomCost = 4.6 + randomDecimal * (6.7 - 4.6)
-
-    //     let calculatedCost = calculatedEnergy * randomCost
-    //     calculatedCost = Number(calculatedCost.toFixed(4))
-
-    //     return calculatedCost
-    // }
-
-    // calculateRealTimeEnergy_Cost(power_W: number, citizen_id: number) {
-    //     const energyCost = new EnergyCostDTO()
-    //     const power_kW = power_W / 1000
-    //     const time_hour = 10 / 3600 //for every 10 sec
-
-    //     let calculatedEnergy = power_kW * time_hour //energy in kWh
-    //     energyCost.energy = Number(calculatedEnergy.toFixed(4))
-    //     console.log("Energy: ", energyCost.energy)
-
-    //     const randomDecimal = Math.random()
-    //     let randomCost = 4.6 + randomDecimal * (6.7 - 4.6)
-
-    //     const calculatedCost = energyCost.energy * randomCost
-    //     energyCost.cost = Number(calculatedCost.toFixed(4))
-    //     console.log("Cost: ", energyCost.cost)
-
-    //     energyCost.c_id = citizen_id
-
-    //     return energyCost
-    // }
-
-    // async getRealTimeEnergyCostData(contact: number) {
-    //     const citizen = await this.citizenRepo.findOneBy({ contact: contact })
-
-    //     const currentDate = new Date().toISOString().slice(0, 10) //YYYY-MM-DD in string type
-    //     // console.log("RealTimeEnergyCostData - Current Date: " + typeof currentDate + " " + currentDate)
-
-    //     const usageLogs = await this.usageRepo.find({
-    //         where: {
-    //             c_id: citizen.id,
-    //             time: Like(`%${currentDate}%`),
-    //         },
-    //     })
-    //     console.log("Total Number of Usage Data from Current Date in Usage_Logs table: ", usageLogs.length)
-
-    //     if (usageLogs.length > 0) {
-    //         const energyCosts = usageLogs.map((usageLog) => this.calculateRealTimeEnergy_Cost(usageLog.power, citizen.id));
-    //         // energyCosts.forEach((energyCost) => energyCost.c_id = citizen.id);
-
-    //         console.log("Inserting Values into Energy_Cost Table")
-    //         await this.energycost_Repo.save(energyCosts)
-    //     }
-
-    //     const realtime_energycost_Data = await this.energycost_Repo.find({
-    //         where: {
-    //             c_id: citizen.id,
-    //             time: Like(`%${currentDate}%`),
-    //         },
-    //     });
-
-    //     return realtime_energycost_Data.length > 0 ? realtime_energycost_Data : "No Energy_Cost Data from Current Date"
-    // }
-
     calculateRealTimeEnergyCost(latestUsageData: UsageLOGEntity, citizen_id: number): EnergyCostDTO {
         const energyCost = new EnergyCostDTO()
         const timeHour = 10 / 3600
@@ -164,6 +90,7 @@ export class CitizenService {
         return energyCost
     }
 
+    //Real-time Energy and Cost of Citizen
     async getRealTimeEnergyCostData(contact: number) {
         const citizen = await this.citizenRepo.findOneBy({ contact: contact })
 
@@ -178,13 +105,10 @@ export class CitizenService {
         console.log("Latest Usage log_id: " + latestUsageData.id)
 
         if (!latestUsageData) {
-            // throw new Error('No Usage Data from Current Date');
             console.log("No Usage Data from Current Date")
         } else {
-            const energyCost = this.calculateRealTimeEnergyCost(latestUsageData, citizen.id);
+            const energyCost = this.calculateRealTimeEnergyCost(latestUsageData, citizen.id)
             console.log("Calculating Energy_Cost of Usage log_id: " + latestUsageData.id)
-
-            // energyCosts.forEach((energyCost) => energyCost.c_id = citizen.id);
 
             console.log("Inserting Values into Energy_Cost Table")
             await this.energycost_Repo.save(energyCost)
@@ -200,7 +124,7 @@ export class CitizenService {
         return realtime_energycost_Data.length > 0 ? realtime_energycost_Data : "No Energy_Cost Data from Current Date"
     }
 
-    //Citizen Usage by Date
+    //Usage of Citizen by Date
     async getUsageByDate(contact: number, date: string) {
         const citizen = await this.citizenRepo.findOneBy({ contact: contact })
         const usageByDate = await this.usageRepo.find({
@@ -213,7 +137,7 @@ export class CitizenService {
         return usageByDate.length > 0 ? usageByDate : "No Usage Data from Searched Date"
     }
 
-    //Citizen Energy and Cost by Date
+    //Energy and Cost of Citizen by Date
     async getEnergyCostByDate(contact: number, date: string) {
         const citizen = await this.citizenRepo.findOneBy({ contact: contact })
         const energy_costByDate = await this.energycost_Repo.find({
@@ -226,7 +150,6 @@ export class CitizenService {
         return energy_costByDate.length > 0 ? energy_costByDate : "No Energy_Cost Data from Searched Date"
     }
 
-    //Citizen Daily Total Energy-Cost Data
     calculateDailyEnergy_Cost(realtime_energycost_currentDate: any, citizen_id: number) {
         let totalDailyEnergy = 0
         let totalDailyCost = 0
@@ -247,6 +170,7 @@ export class CitizenService {
         return totalDailyEnergyCost
     }
 
+    //Daily Total Energy and Cost of Citizen
     async getDailyEnergyCostData(contact: number) {
         const citizen = await this.citizenRepo.findOneBy({ contact: contact })
 
@@ -257,7 +181,7 @@ export class CitizenService {
         const hasEntryForCurrentDate = await this.daily_energycost_Repo.exist({
             where: {
                 c_id: citizen.id,
-                time: Like(`%${currentDate}%`), // Check for date part in time column
+                time: Like(`%${currentDate}%`),
             },
         })
         console.log("Entry of Current Date in Daily_Energy_Cost table: ", hasEntryForCurrentDate)
@@ -266,12 +190,11 @@ export class CitizenService {
             const realtime_energycost_currentDate = await this.energycost_Repo.find({
                 where: {
                     c_id: citizen.id,
-                    time: Like(`%${currentDate}%`), // Check for date part in time column
+                    time: Like(`%${currentDate}%`),
                 },
             })
 
             const totalDailyEnergyCost = this.calculateDailyEnergy_Cost(realtime_energycost_currentDate, citizen.id)
-            // totalDailyEnergyCost.c_id = citizen.id
 
             console.log("Inserting Values into Daily_Energy_Cost Table")
             await this.daily_energycost_Repo.save(totalDailyEnergyCost)
@@ -290,7 +213,7 @@ export class CitizenService {
             const realtime_energycost_currentDate = await this.energycost_Repo.find({
                 where: {
                     c_id: citizen.id,
-                    time: Like(`%${currentDate}%`), // Check for date part in time column
+                    time: Like(`%${currentDate}%`),
                 },
             })
 
@@ -315,11 +238,12 @@ export class CitizenService {
         );
     }
 
+    //Generate 6-digit OTP
     async getGeneratedOTP(contact: number) {
-        let otp = "";
-        otp += Math.floor(Math.random() * 9) + 1; // Generate a random digit from 1 to 9
+        let otp = ""
+        otp += Math.floor(Math.random() * 9) + 1
         for (let i = 1; i < 6; i++) {
-            otp += Math.floor(Math.random() * 10); // Generate a random digit from 0 to 9
+            otp += Math.floor(Math.random() * 10)
         }
 
         const response_sendOTP = this.sendOTPToCitizen(contact, otp)

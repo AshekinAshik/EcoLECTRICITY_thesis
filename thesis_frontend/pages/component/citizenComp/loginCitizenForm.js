@@ -1,9 +1,7 @@
 import { useRouter } from 'next/router';
-import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import WebLayout_V1 from '../../layout/layout_v1';
-// import { useAuth } from '../utils/authContext';
 // import SessionCheck from '../utils/sessionCheck';
 
 const CitizenLoginForm = () => {
@@ -48,27 +46,6 @@ const CitizenLoginForm = () => {
             }
         }
     };
-
-    // const doLogin = async (e) => {
-    //     try {
-    //         const response = await axios.post(process.env.NEXT_PUBLIC_API_CITIZEN_BASE_URL + 'login',
-    //             {
-    //                 loginData
-    //             },
-    //             {
-    //                 withCredentials: true
-    //             });
-
-    //         console.log(response);
-    //         if (response.data == "Citizen Login Successful!") {
-    //             router.push('citizenDashboard')
-    //         } else {
-    //             setError("Invalid Citizen!")
-    //         }
-    //     } catch (error) {
-    //         console.error('Error Citizen Login:', error);
-    //     }
-    // }
 
     return (
         <>

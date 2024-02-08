@@ -2,16 +2,16 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('admin')
 export class AdminEntity {
-    @PrimaryGeneratedColumn({name:'a_id'})
-    a_id:number;
-    @Column({length:150})
-    name:string;
-    @Column({length:80, unique:true})
-    username:string;
+    @PrimaryGeneratedColumn({ name: 'a_id' })
+    a_id: number;
+    @Column({ length: 150 })
+    name: string;
+    @Column({ length: 80, unique: true })
+    username: string;
     @Column()
-    email:string;
+    email: string;
     @Column()
-    contact:number;
+    contact: number;
     @Column()
-    password:string;
+    password: string;
 }

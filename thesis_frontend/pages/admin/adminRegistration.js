@@ -8,11 +8,9 @@ const DynamicRegAdminForm = dynamic(() => import('../component/adminComp/regAdmi
 const AdminRegistrationPage = () => {
     return (
         <>
-            {/* <WebLayout_V1 title="Admin - REGISTRATION"> */}
-                <div>
-                    <DynamicRegAdminForm />
-                </div>
-            {/* </WebLayout_V1> */}
+            <div>
+                <DynamicRegAdminForm />
+            </div>
 
             {/* <WebLayout title="Admin - REGISTRATION">
                 <div>

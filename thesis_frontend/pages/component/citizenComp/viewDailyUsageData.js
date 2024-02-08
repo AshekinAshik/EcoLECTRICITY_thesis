@@ -50,7 +50,6 @@ const ViewDailyUsageData = () => {
             setDailyEnergyCostData(response_daily_energy_cost.data)
             console.log("Response Daily Energy-Cost: ", response_daily_energy_cost)
 
-            // const timeInterval = 10
             response_daily_energy_cost.data.map(item => {
                 console.log("Item Daily Energy-Cost: ", item)
 
@@ -70,7 +69,6 @@ const ViewDailyUsageData = () => {
         chart: {
             id: 'apexchart-example',
             height: 550,
-            // type: 'line'
         },
         plotOptions: {
             bar: {

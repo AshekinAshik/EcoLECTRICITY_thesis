@@ -7,6 +7,7 @@ import session = require("express-session");
 export class CitizenController {
     constructor(private readonly citizenService: CitizenService) { }
 
+    //Citizen Registration
     @Post('register')
     @UsePipes(new ValidationPipe())
     regCitizen(@Body() citizenRegInfo: CitizenRegDTO): any {
@@ -16,6 +17,7 @@ export class CitizenController {
         return "Citizen Registration Successful!"
     }
 
+    //Citizen Login
     @Post('login')
     @UsePipes(new ValidationPipe())
     async loginCitizen(@Body() citizenLogInfo: CitizenLoginDTO, @Session() session) {
@@ -33,92 +35,46 @@ export class CitizenController {
         }
     }
 
-    @Get('dashboard')
-    getAllUsageData(@Session() session): any {
-        // const now = new Date();
-        // const dateObj = new Date();
-        // const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        // const day = ('0' + dateObj.getDate()).slice(-2);
-        // const month = months[dateObj.getMonth()];
-        // const year = dateObj.getFullYear();
-        // console.log(`${day} ${month} ${year}`)
-
-        return this.citizenService.getAllUsage(session.contact);
-    }
-
+    //Real-time Usage of Citizen
     @Get('realtime_usage')
     getRealTimeUsageData(@Session() session): any {
-        // const now = new Date();
-        // const dateObj = new Date();
-        // const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        // const day = ('0' + dateObj.getDate()).slice(-2);
-        // const month = months[dateObj.getMonth()];
-        // const year = dateObj.getFullYear();
-        // console.log(`${day} ${month} ${year}`)
-
         return this.citizenService.getRealTimeUsageData(session.contact);
     }
 
-
+    //Real-time Energy and Cost of Citizen
     @Get('realtime_energy_cost')
     getRealTimeEnergyAndCostData(@Session() session) {
-        // const res = await this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
-        //return res    
-
-        // if (res) {
-        //     return res
-        // } else {
-        //     return "Today's Energy-Cost is already uploaded!"
-        // }
-
         return this.citizenService.getRealTimeEnergyCostData(session.contact)
     }
 
+    //Usage of Citizen by Date
     @Get('usage/:date')
     getUsageByDate(@Param('date') date: any, @Session() session) {
-        // const res = await this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
-        //return res
-
-        // if (res) {
-        //     return res
-        // } else {
-        //     return "Today's Energy-Cost is already uploaded!"
-        // }
-
         return this.citizenService.getUsageByDate(session.contact, date)
     }
 
+    //Energy and Cost of Citizen by Date
     @Get('energy_cost/:date')
     getEnergyCostByDate(@Param('date') date: any, @Session() session) {
-        // const res = await this.citizenService.getCalculatedAndSavedEnergy_Cost(session.contact)
-        //return res
-
-        // if (res) {
-        //     return res
-        // } else {
-        //     return "Today's Energy-Cost is already uploaded!"
-        // }
-
         return this.citizenService.getEnergyCostByDate(session.contact, date)
     }
 
+    //Daily Total Energy and Cost of Citizen
     @Get('daily_energy_cost')
     getDailyEnergyAndCostData(@Session() session): any {
-        // const res = await this.citizenService.getDailyCalculatedAndSaveEnergy_Cost(session.contact)
-
-        // if (res) {
-        //     return res
-        // } else {
-        //     return "Today's Energy-Cost is already uploaded!"
-        // }
-
         return this.citizenService.getDailyEnergyCostData(session.contact)
     }
 
+    //Generate 6-digit OTP
     @Get('generateOTP')
     getGeneratedOTP(@Session() session) {
         return this.citizenService.getGeneratedOTP(session.contact);
-
-        // return "E-mail Send Successful!";
     }
+
+
+    //Citizen All Usage Data
+    // @Get('dashboard')
+    // getAllUsageData(@Session() session): any {
+    //     return this.citizenService.getAllUsage(session.contact);
+    // }
 }
